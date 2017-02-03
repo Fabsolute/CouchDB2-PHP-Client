@@ -2,7 +2,7 @@
 Library that provides ways to use CouchDB2 for PHP developers.
 
 ## Install
-Install the library like this `composer require fabsolute/couchdb2-php-client` 
+Install the library like this `composer require fabs/couchdb2` 
 
 ## Quick Start
 ```
