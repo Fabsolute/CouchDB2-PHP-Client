@@ -8,23 +8,21 @@
 
 namespace Fabs\CouchDB2;
 
-use Fabs\CouchDB2\Http\Requests;
 use Fabs\CouchDB2\Query\DBQuery;
 use Fabs\CouchDB2\Query\Queries\AllDatabasesQuery;
 use Fabs\CouchDB2\Query\Queries\CreateDatabaseQuery;
 use Fabs\CouchDB2\Query\Queries\DeleteDatabaseQuery;
 use Fabs\CouchDB2\Query\Queries\UUIDsQuery;
 use Fabs\CouchDB2\Query\QueryBase;
-use Fabs\CouchDB2\Query\QueryMethods;
+
 use GuzzleHttp\Client;
 use GuzzleHttp\Psr7\Request;
 use GuzzleHttp\Psr7\Response;
-use Psr\Http\Message\ResponseInterface;
 
 class Couch
 {
     /**
-     * @var Config
+     * @var CouchConfig
      */
     public $config;
 
@@ -88,7 +86,7 @@ class Couch
      * @param $url string
      * @param $allowed_status_codes
      * @return mixed
-     * @throws CouchDB2Exception
+     * @throws CouchDBException
      */
     protected function test_response($response, $url, $allowed_status_codes)
     {
@@ -100,7 +98,7 @@ class Couch
             }
             return true;
         } else {
-            throw new CouchDB2Exception($response->getStatusCode(), $response->getBody(), $url);
+            throw new CouchDBException($response->getStatusCode(), $response->getBody(), $url);
         }
     }
 
@@ -116,14 +114,18 @@ class Couch
         $query_data = $query_object->get_query_data();
         $query_headers = $query_object->get_query_headers();
         $query_options = $query_object->get_query_options();
+
+        $query_options['base_uri'] = $this->get_server_url();
+        $query_options['exceptions'] = false;
+
         $allowed_response_codes = $query_object->get_allowed_response_codes();
 
         $execution_url = sprintf('/%s', $query_url);
         $execution_headers = array_merge($this->default_headers, $query_headers);
         $execution_options = array_merge($this->default_request_options, $query_options);
 
-        $client = new Client(['base_uri' => $this->get_server_url()]);
-        $request = new Request($query_method, $execution_url, $execution_headers, $query_data, $execution_options);
+        $client = new Client($execution_options);
+        $request = new Request($query_method, $execution_url, $execution_headers, $query_data);
         $response = $client->send($request);
 
         $response = $this->test_response($response, sprintf('%s%s', $this->get_server_url(), $execution_url), $allowed_response_codes);

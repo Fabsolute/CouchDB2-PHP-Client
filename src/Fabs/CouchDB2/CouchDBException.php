@@ -9,7 +9,7 @@
 namespace Fabs\CouchDB2;
 
 
-class CouchDB2Exception extends \Exception
+class CouchDBException extends \Exception
 {
     protected $status_code;
     protected $response;

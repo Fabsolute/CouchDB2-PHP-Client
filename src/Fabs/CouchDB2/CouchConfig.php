@@ -9,7 +9,7 @@
 namespace Fabs\CouchDB2;
 
 
-class Config
+class CouchConfig
 {
     public $username;
     public $password;
