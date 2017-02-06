@@ -6,7 +6,7 @@
     {
       "type": "package",
       "package": {
-        "name": "fabsolute/couchdb2-php-client",
+        "name": "fabs/couchdb2",
         "version": "dev-master",
         "source": {
           "url": "git://github.com/fabsolute/couchdb2-php-client.git",
