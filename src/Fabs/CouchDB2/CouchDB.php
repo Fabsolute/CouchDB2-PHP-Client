@@ -76,7 +76,6 @@ class CouchDB extends Couch
 
     public function compact()
     {
-
         $method_url = $this->get_method_url('_compact');
         $response = Requests::post($method_url, $this->default_headers, [], $this->default_request_options);
         $response = $this->test_response($response, [202]);
@@ -165,12 +164,50 @@ class CouchDB extends Couch
             $data['docs'][] = (array)$doc;
         }
 
-        if ($all_or_nothing) {
-            $data['all_or_nothing'] = true;
-        }
+//        if ($all_or_nothing) {
+//            $data['all_or_nothing'] = true;
+//        }
 
         $response = Requests::post($method_url, $this->default_headers, $data, $this->default_request_options);
         $response = $this->test_response($response, [200, 201, 202]);
+        if (isset($response->body)) {
+            return $response->body;
+        }
+        return $response;
+    }
+
+
+    public function delete_doc($doc_id, $doc_rev)
+    {
+        $method_url = $this->get_database_url();
+        $method_url = sprintf('%s/%s?rev=%s', $method_url, $doc_id, $doc_rev);
+
+        $response = Requests::delete($method_url, $this->default_headers, $this->default_request_options);
+        $response = $this->test_response($response, [200, 202]);
+        if (isset($response->body)) {
+            return $response->body;
+        }
+        return $response;
+    }
+
+    public function get_view($view_id, $view_name)
+    {
+        $method_url = $this->get_database_url();
+        $method_url = sprintf('%s/_design/%s/_view/%s', $method_url, $view_id, $view_name);
+
+        list($is_method_get, $query, $data) = $this->prepare_query();
+
+        if (strlen($query) > 0) {
+            $method_url = sprintf('%s?%s', $method_url, $query);
+        }
+
+        if ($is_method_get) {
+            $response = Requests::get($method_url, $this->default_headers, $this->default_request_options);
+        } else {
+            $response = Requests::post($method_url, $this->default_headers, $data, $this->default_request_options);
+        }
+
+        $response = $this->test_response($response, [200]);
         if (isset($response->body)) {
             return $response->body;
         }
@@ -279,44 +316,6 @@ class CouchDB extends Couch
 
         $response = Requests::delete($method_url, $this->default_headers, $this->default_request_options);
         $response = $this->test_response($response, [200, 202]);
-        if (isset($response->body)) {
-            return $response->body;
-        }
-        return $response;
-    }
-
-    public function delete_doc($doc_id, $doc_rev)
-    {
-        $method_url = $this->get_database_url();
-        $method_url = sprintf('%s/%s?rev=%s', $method_url, $doc_id, $doc_rev);
-
-        $response = Requests::delete($method_url, $this->default_headers, $this->default_request_options);
-        $response = $this->test_response($response, [200, 202]);
-        if (isset($response->body)) {
-            return $response->body;
-        }
-        return $response;
-    }
-
-    public function get_view($view_id, $view_name)
-    {
-        $method_url = $this->get_database_url();
-        $method_url = sprintf('%s/_design/%s/_view/%s', $method_url, $view_id, $view_name);
-
-        list($is_method_get, $query, $data) = $this->prepare_query();
-
-        if (strlen($query) > 0) {
-            $method_url = sprintf('%s?%s', $method_url, $query);
-
-        }
-
-        if ($is_method_get) {
-            $response = Requests::get($method_url, $this->default_headers, $this->default_request_options);
-        } else {
-            $response = Requests::post($method_url, $this->default_headers, $data, $this->default_request_options);
-        }
-
-        $response = $this->test_response($response, [200]);
         if (isset($response->body)) {
             return $response->body;
         }
@@ -678,6 +677,7 @@ class CouchDB extends Couch
         }
 
     }
+
 
     #endregion
 }

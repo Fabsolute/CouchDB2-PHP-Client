@@ -9,9 +9,9 @@
 namespace Fabs\CouchDB2;
 
 
-use Fabs\CouchDB2\Http\Requests_Transport_cURL;
+use Fabs\CouchDB2\Http\CURL;
 
-class CouchCURL extends Requests_Transport_cURL
+class CouchCURL extends CURL
 {
     public function request($url, $headers = array(), $data = array(), $options = array())
     {

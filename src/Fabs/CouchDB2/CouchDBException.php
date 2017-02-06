@@ -15,6 +15,12 @@ class CouchDB2Exception extends \Exception
     protected $response;
     protected $url;
 
+    /**
+     * CouchDB2Exception constructor.
+     * @param string $status_code
+     * @param int $response
+     * @param string $url
+     */
     public function __construct($status_code, $response, $url)
     {
         $this->status_code = $status_code;
