@@ -1,24 +1,27 @@
 {
+  "name": "fabs/couchdb2",
+  "type": "library",
+  "description": "CouchDB2 php client",
+  "keywords": [
+    "couchdb",
+    "couchdb2",
+    "database"
+  ],
+  "license": "MIT",
+  "authors": [
+    {
+      "name": "Ahmet Turk",
+      "email": "ahmetturk93@gmail.com",
+      "homepage": "https://github.com/fabsolute"
+    }
+  ],
   "require": {
+    "php": "^7.0",
     "guzzlehttp/guzzle": "~6.0"
   },
-  "repositories": [
-    {
-      "type": "package",
-      "package": {
-        "name": "fabs/couchdb2",
-        "version": "dev-master",
-        "source": {
-          "url": "git://github.com/fabsolute/couchdb2-php-client.git",
-          "type": "git",
-          "reference": "master"
-        },
-        "autoload": {
-          "psr-0": {
-            "Fabs\\CouchDB2": "src"
-          }
-        }
-      }
+  "autoload": {
+    "psr-0": {
+      "Fabs\\CouchDB2": "src"
     }
-  ]
+  }
 }
