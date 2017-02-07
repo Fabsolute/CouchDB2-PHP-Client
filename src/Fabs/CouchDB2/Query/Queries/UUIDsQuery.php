@@ -22,14 +22,14 @@ class UUIDsQuery extends QueryBase
         $this->query_method = QueryMethods::GET;
         $this->query_url = '_uuids';
         parent::__construct($couch_object);
-        $this->set_count($count);
+        $this->setCount($count);
     }
 
-    public function set_count($count)
+    public function setCount($count)
     {
         if ($count < 1) {
             throw new \InvalidArgumentException('count should be greater than 0');
         }
-        return $this->set_query_params('count', $count, 'int');
+        return $this->setQueryParameters('count', $count, 'int');
     }
 }

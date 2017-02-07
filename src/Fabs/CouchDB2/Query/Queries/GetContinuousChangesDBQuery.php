@@ -22,7 +22,7 @@ class GetContinuousChangesDBQuery extends GetChangesDBQuery
      */
     public function __construct($couch_object, $changes_query)
     {
-        parent::__construct($couch_object, $changes_query->get_database_name());
+        parent::__construct($couch_object, $changes_query->getDatabaseName());
     }
 
     public function execute()
@@ -32,7 +32,7 @@ class GetContinuousChangesDBQuery extends GetChangesDBQuery
         # return parent::execute();
     }
 
-    public function set_callback_function($callback_function)
+    public function setCallbackFunction($callback_function)
     {
         if (!is_callable($callback_function)) {
             throw new \Exception('$continuous_callback must be callable');

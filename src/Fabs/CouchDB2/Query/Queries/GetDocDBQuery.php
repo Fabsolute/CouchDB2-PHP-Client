@@ -25,7 +25,7 @@ class GetDocDBQuery extends DBQuery
         parent::__construct($couch_object, $database_name);
     }
 
-    public function set_if_none_match($value)
+    public function setIfNoneMatch($value)
     {
         if (is_string($value)) {
             $this->query_headers['If-None-Match'] = $value;
@@ -33,63 +33,63 @@ class GetDocDBQuery extends DBQuery
         return $this;
     }
 
-    public function set_attachments($value)
+    public function setAttachments($value)
     {
-        return $this->set_query_params('attachments', $value, 'json_encode_boolean');
+        return $this->setQueryParameters('attachments', $value, 'json_encode_boolean');
     }
 
-    public function set_att_encoding_info($value)
+    public function setAttEncodingInfo($value)
     {
-        return $this->set_query_params('set_att_encoding_info', $value, 'json_encode_boolean');
+        return $this->setQueryParameters('set_att_encoding_info', $value, 'json_encode_boolean');
     }
 
-    public function set_atts_since($value)
+    public function setAttsSince($value)
     {
-        return $this->set_query_params('atts_since', $value, 'ensure_array');
+        return $this->setQueryParameters('atts_since', $value, 'ensure_array');
     }
 
-    public function set_conflicts($value)
+    public function setConflicts($value)
     {
-        return $this->set_query_params('conflicts', $value, 'json_encode_boolean');
+        return $this->setQueryParameters('conflicts', $value, 'json_encode_boolean');
     }
 
-    public function set_deleted_conflicts($value)
+    public function setDeletedConflicts($value)
     {
-        return $this->set_query_params('deleted_conflicts', $value, 'json_encode_boolean');
+        return $this->setQueryParameters('deleted_conflicts', $value, 'json_encode_boolean');
     }
 
-    public function set_latest($value)
+    public function setLatest($value)
     {
-        return $this->set_query_params('latest', $value, 'json_encode_boolean');
+        return $this->setQueryParameters('latest', $value, 'json_encode_boolean');
     }
 
-    public function set_local_seq($value)
+    public function setLocalSeq($value)
     {
-        return $this->set_query_params('local_seq', $value, 'json_encode_boolean');
+        return $this->setQueryParameters('local_seq', $value, 'json_encode_boolean');
     }
 
-    public function set_meta($value)
+    public function setMeta($value)
     {
-        return $this->set_query_params('meta', $value, 'json_encode_boolean');
+        return $this->setQueryParameters('meta', $value, 'json_encode_boolean');
     }
 
-    public function set_open_revs($value)
+    public function setOpenRevs($value)
     {
-        return $this->set_query_params('open_revs', $value, 'ensure_array');
+        return $this->setQueryParameters('open_revs', $value, 'ensure_array');
     }
 
-    public function set_rev($value)
+    public function setRev($value)
     {
-        return $this->set_query_params('rev', $value, 'string');
+        return $this->setQueryParameters('rev', $value, 'string');
     }
 
-    public function set_revs($value)
+    public function setRevs($value)
     {
-        return $this->set_query_params('revs', $value, 'json_encode_boolean');
+        return $this->setQueryParameters('revs', $value, 'json_encode_boolean');
     }
 
-    public function set_revs_info($value)
+    public function setRevsInfo($value)
     {
-        return $this->set_query_params('revs_info', $value, 'json_encode_boolean');
+        return $this->setQueryParameters('revs_info', $value, 'json_encode_boolean');
     }
 }

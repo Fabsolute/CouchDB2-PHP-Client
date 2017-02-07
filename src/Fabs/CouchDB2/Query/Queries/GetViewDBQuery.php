@@ -28,106 +28,106 @@ class GetViewDBQuery extends DBQuery
      * @param $value
      * @return GetViewDBQuery
      */
-    public function conflicts($value)
+    public function setConflicts($value)
     {
-        return $this->set_query_params('conflicts', $value, 'json_encode_boolean');
+        return $this->setQueryParameters('conflicts', $value, 'json_encode_boolean');
     }
 
     /**
      * @param $value
      * @return GetViewDBQuery
      */
-    public function descending($value)
+    public function setDescending($value)
     {
-        return $this->set_query_params('descending', $value, 'json_encode_boolean');
+        return $this->setQueryParameters('descending', $value, 'json_encode_boolean');
     }
 
     /**
      * @param $value
      * @return GetViewDBQuery
      */
-    public function end_key($value)
+    public function setEndKey($value)
     {
-        return $this->set_query_params('end_key', $value, 'json_encode');
+        return $this->setQueryParameters('end_key', $value, 'json_encode');
     }
 
     /**
      * @param $value
      * @return GetViewDBQuery
      */
-    public function end_key_doc_id($value)
+    public function setEndKeyDocID($value)
     {
-        return $this->set_query_params('end_key_doc_id', $value, 'json_encode');
+        return $this->setQueryParameters('end_key_doc_id', $value, 'json_encode');
     }
 
     /**
      * @param $value
      * @return GetViewDBQuery
      */
-    public function group($value)
+    public function setGroup($value)
     {
-        return $this->set_query_params('group', $value, 'json_encode_boolean');
+        return $this->setQueryParameters('group', $value, 'json_encode_boolean');
     }
 
     /**
      * @param $value
      * @return GetViewDBQuery
      */
-    public function group_level($value)
+    public function setGroupLevel($value)
     {
-        return $this->set_query_params('group_level', $value, 'int');
+        return $this->setQueryParameters('group_level', $value, 'int');
     }
 
     /**
      * @param $value
      * @return GetViewDBQuery
      */
-    public function include_docs($value)
+    public function setIncludeDocs($value)
     {
-        return $this->set_query_params('include_docs', $value, 'json_encode_boolean');
+        return $this->setQueryParameters('include_docs', $value, 'json_encode_boolean');
     }
 
     /**
      * @param $value
      * @return GetViewDBQuery
      */
-    public function attachments($value)
+    public function setAttachments($value)
     {
-        return $this->set_query_params('attachments', $value, 'json_encode_boolean');
+        return $this->setQueryParameters('attachments', $value, 'json_encode_boolean');
     }
 
     /**
      * @param $value
      * @return GetViewDBQuery
      */
-    public function att_encoding_info($value)
+    public function setAttEncodingInfo($value)
     {
-        return $this->set_query_params('att_encoding_info', $value, 'json_encode_boolean');
+        return $this->setQueryParameters('att_encoding_info', $value, 'json_encode_boolean');
     }
 
     /**
      * @param $value
      * @return GetViewDBQuery
      */
-    public function inclusive_end($value)
+    public function setInclusiveEnd($value)
     {
-        return $this->set_query_params('inclusive_end', $value, 'json_encode_boolean');
+        return $this->setQueryParameters('inclusive_end', $value, 'json_encode_boolean');
     }
 
     /**
      * @param $value
      * @return GetViewDBQuery
      */
-    public function key($value)
+    public function setKey($value)
     {
-        return $this->set_query_params('key', $value, 'json_encode');
+        return $this->setQueryParameters('key', $value, 'json_encode');
     }
 
     /**
      * @param $value
      * @return GetViewDBQuery
      */
-    public function keys($value)
+    public function setKeys($value)
     {
         $this->query_data['keys'] = $value;
         return $this;
@@ -137,7 +137,7 @@ class GetViewDBQuery extends DBQuery
      * @param $value
      * @return GetViewDBQuery
      */
-    public function add_key($value)
+    public function addKey($value)
     {
         if (!isset($this->query_data['keys'])) {
             $this->query_data['keys'] = [];
@@ -151,90 +151,90 @@ class GetViewDBQuery extends DBQuery
      * @param $value
      * @return GetViewDBQuery $this
      */
-    public function limit($value)
+    public function setLimit($value)
     {
-        return $this->set_query_params('limit', $value, 'int');
+        return $this->setQueryParameters('limit', $value, 'int');
     }
 
     /**
      * @param $value
      * @return GetViewDBQuery
      */
-    public function reduce($value)
+    public function setReduce($value)
     {
-        return $this->set_query_params('reduce', $value, 'json_encode_boolean');
+        return $this->setQueryParameters('reduce', $value, 'json_encode_boolean');
     }
 
     /**
      * @param $value
      * @return GetViewDBQuery
      */
-    public function skip($value)
+    public function setSkip($value)
     {
-        return $this->set_query_params('skip', $value, 'int');
+        return $this->setQueryParameters('skip', $value, 'int');
     }
 
     /**
      * @param $value
      * @return GetViewDBQuery
      */
-    public function sorted($value)
+    public function setSorted($value)
     {
-        return $this->set_query_params('sorted', $value, 'json_encode_boolean');
+        return $this->setQueryParameters('sorted', $value, 'json_encode_boolean');
     }
 
     /**
      * @param $value
      * @return GetViewDBQuery
      */
-    public function stable($value)
+    public function setStable($value)
     {
-        return $this->set_query_params('stable', $value, 'json_encode_boolean');
+        return $this->setQueryParameters('stable', $value, 'json_encode_boolean');
     }
 
     /**
      * @param $value
      * @return GetViewDBQuery
      */
-    public function stale($value)
+    public function setStale($value)
     {
-        return $this->set_query_params('stale', $value, 'string');
+        return $this->setQueryParameters('stale', $value, 'string');
     }
 
     /**
      * @param $value
      * @return GetViewDBQuery
      */
-    public function start_key($value)
+    public function setStartKey($value)
     {
-        return $this->set_query_params('start_key', $value, 'json_encode');
+        return $this->setQueryParameters('start_key', $value, 'json_encode');
     }
 
     /**
      * @param $value
      * @return GetViewDBQuery
      */
-    public function start_key_doc_id($value)
+    public function setStartKeyDocID($value)
     {
-        return $this->set_query_params('start_key_doc_id', $value, 'json_encode');
+        return $this->setQueryParameters('start_key_doc_id', $value, 'json_encode');
     }
 
     /**
      * @param $value
      * @return GetViewDBQuery
      */
-    public function update($value)
+    public function setUpdate($value)
     {
-        return $this->set_query_params('update', $value, 'string');
+        return $this->setQueryParameters('update', $value, 'string');
     }
 
     /**
      * @param $value
      * @return GetViewDBQuery
      */
-    public function update_seq($value)
+    public function setUpdateSeq($value)
     {
-        return $this->set_query_params('update_seq', $value, 'json_encode_boolean');
+        return $this->setQueryParameters('update_seq', $value, 'json_encode_boolean');
     }
 
     public function execute()

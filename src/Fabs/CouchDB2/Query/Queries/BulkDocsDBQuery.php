@@ -27,7 +27,7 @@ class BulkDocsDBQuery extends DBQuery
         return $this;
     }
 
-    public function add_docs($docs)
+    public function addDocs($docs)
     {
         foreach ($docs as $doc) {
             $this->query_data['docs'][] = (array)$doc;
@@ -35,14 +35,14 @@ class BulkDocsDBQuery extends DBQuery
         return $this;
     }
 
-    public function add_doc($doc)
+    public function addDoc($doc)
     {
         $doc = (array)$doc;
         $this->query_data['docs'][] = $doc;
         return $this;
     }
 
-    public function set_delayed_commit_policy($value)
+    public function setDelayedCommitPolicy($value)
     {
         if (is_bool($value)) {
             $this->query_headers['X-Couch-Full-Commit'] = $value;
@@ -50,7 +50,7 @@ class BulkDocsDBQuery extends DBQuery
         return $this;
     }
 
-    public function set_new_edits($value)
+    public function setNewEdits($value)
     {
         if (is_bool($value)) {
             $this->query_data['new_edits'] = $value;

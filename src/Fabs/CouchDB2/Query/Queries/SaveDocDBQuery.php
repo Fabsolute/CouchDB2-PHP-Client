@@ -37,7 +37,7 @@ class SaveDocDBQuery extends DBQuery
         parent::__construct($couch_object, $database_name);
     }
 
-    public function set_should_update($value)
+    public function setShouldUpdate($value)
     {
         if (is_bool($value)) {
             $this->should_update = $value;
@@ -45,7 +45,7 @@ class SaveDocDBQuery extends DBQuery
         return $this;
     }
 
-    public function set_if_match($value)
+    public function setIfMatch($value)
     {
         if (is_string($value)) {
             $this->query_headers['If-Match'] = $value;
@@ -53,7 +53,7 @@ class SaveDocDBQuery extends DBQuery
         return $this;
     }
 
-    public function set_delayed_commit_policy($value)
+    public function setDelayedCommitPolicy($value)
     {
         if (is_bool($value)) {
             $this->query_headers['X-Couch-Full-Commit'] = $value;
@@ -61,14 +61,14 @@ class SaveDocDBQuery extends DBQuery
         return $this;
     }
 
-    public function set_batch($value)
+    public function setBatch($value)
     {
-        return $this->set_query_params('batch', $value, 'string');
+        return $this->setQueryParameters('batch', $value, 'string');
     }
 
-    public function set_new_edits($value)
+    public function setNewEdits($value)
     {
-        return $this->set_query_params('new_edits', $value, 'json_encode_bool');
+        return $this->setQueryParameters('new_edits', $value, 'json_encode_bool');
     }
 
     public function execute()
