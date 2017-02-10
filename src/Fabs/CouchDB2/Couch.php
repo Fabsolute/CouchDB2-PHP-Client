@@ -39,42 +39,42 @@ class Couch
         $this->default_headers['Accept'] = 'application/json,text/html,text/plain,*/*';
     }
 
-    public function should_return_object($value)
+    public function setShouldReturnObject($value)
     {
         $this->should_return_object = $value;
         return $this;
     }
 
-    public function get_server_url()
+    public function getServerUrl()
     {
         return sprintf("http://%s:%s", $this->config->server, $this->config->port);
     }
 
     #region executions
 
-    public function all_databases()
+    public function getAllDatabases()
     {
         return new AllDatabasesQuery($this);
     }
 
-    public function create_database($database_name)
-    {
-        return new CreateDatabaseQuery($this, $database_name);
-    }
-
-    public function delete_database($database_name)
-    {
-        return new DeleteDatabaseQuery($this, $database_name);
-    }
-
-    public function get_uuids($count = 1)
+    public function getUUIDs($count = 1)
     {
         return new UUIDsQuery($this, $count);
     }
 
-    public function select_database($database_name)
+    public function selectDatabase($database_name)
     {
         return new DBQuery($this, $database_name);
+    }
+
+    public function createDatabase($database_name)
+    {
+        return new CreateDatabaseQuery($this, $database_name);
+    }
+
+    public function deleteDatabase($database_name)
+    {
+        return new DeleteDatabaseQuery($this, $database_name);
     }
 
     #endregion
@@ -88,7 +88,7 @@ class Couch
      * @return mixed
      * @throws CouchDBException
      */
-    protected function test_response($response, $url, $allowed_status_codes)
+    protected function testResponse($response, $url, $allowed_status_codes)
     {
         if (in_array($response->getStatusCode(), $allowed_status_codes)) {
             $body = $response->getBody();
@@ -109,16 +109,16 @@ class Couch
      */
     public function execute($query_object)
     {
-        $query_url = $query_object->get_query_url();
-        $query_method = $query_object->get_query_method();
-        $query_data = $query_object->get_query_data();
-        $query_headers = $query_object->get_query_headers();
-        $query_options = $query_object->get_query_options();
+        $query_url = $query_object->getQueryUrl();
+        $query_method = $query_object->getQueryMethod();
+        $query_data = $query_object->getQueryData();
+        $query_headers = $query_object->getQueryHeaders();
+        $query_options = $query_object->getQueryOptions();
 
-        $query_options['base_uri'] = $this->get_server_url();
+        $query_options['base_uri'] = $this->getServerUrl();
         $query_options['exceptions'] = false;
 
-        $allowed_response_codes = $query_object->get_allowed_response_codes();
+        $allowed_response_codes = $query_object->getAllowedResponseCodes();
 
         $execution_url = sprintf('/%s', $query_url);
         $execution_headers = array_merge($this->default_headers, $query_headers);
@@ -128,7 +128,7 @@ class Couch
         $request = new Request($query_method, $execution_url, $execution_headers, $query_data);
         $response = $client->send($request);
 
-        $response = $this->test_response($response, sprintf('%s%s', $this->get_server_url(), $execution_url), $allowed_response_codes);
+        $response = $this->testResponse($response, sprintf('%s%s', $this->getServerUrl(), $execution_url), $allowed_response_codes);
         return $response;
     }
 

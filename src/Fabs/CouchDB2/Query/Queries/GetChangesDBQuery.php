@@ -23,32 +23,32 @@ class GetChangesDBQuery extends DBQuery
         parent::__construct($couch_object, $database_name);
     }
 
-    public function set_continuous()
+    public function setContinuous()
     {
         return new GetContinuousChangesDBQuery($this->couch_object, $this);
     }
 
-    public function doc_ids($array)
+    public function setDocIDs($array)
     {
-        return $this->set_query_params('doc_ids', $array, 'ensure_array');
+        return $this->setQueryParameters('doc_ids', $array, 'ensure_array');
     }
 
-    public function conflicts($value)
+    public function setConflicts($value)
     {
-        return $this->set_query_params('conflicts', $value, 'json_encode_boolean');
+        return $this->setQueryParameters('conflicts', $value, 'json_encode_boolean');
     }
 
-    public function descending($value)
+    public function setDescending($value)
     {
-        return  $this->set_query_params('descending', $value, 'json_encode_boolean');
+        return  $this->setQueryParameters('descending', $value, 'json_encode_boolean');
     }
 
-    public function feed($value)
+    public function setFeed($value)
     {
         switch ($value) {
             case 'normal':
             case 'longpoll':
-                return $this->set_query_params('feed', $value, 'string');
+                return $this->setQueryParameters('feed', $value, 'string');
                 break;
             case 'continuous':
                 throw new \Exception('Must use set_continuous() method when feed is continuous.');
@@ -59,58 +59,58 @@ class GetChangesDBQuery extends DBQuery
         }
     }
 
-    public function filter($value)
+    public function setFilter($value)
     {
-        return $this->set_query_params('feed', $value, 'string');
+        return $this->setQueryParameters('feed', $value, 'string');
     }
 
-    public function heartbeat($value)
+    public function setHeartbeat($value)
     {
-        return $this->set_query_params('heartbeat', $value, 'int');
+        return $this->setQueryParameters('heartbeat', $value, 'int');
     }
 
-    public function include_docs($value)
+    public function setIncludeDocs($value)
     {
-        return $this->set_query_params('include_docs', $value, 'json_encode_boolean');
+        return $this->setQueryParameters('include_docs', $value, 'json_encode_boolean');
     }
 
-    public function attachments($value)
+    public function setAttachments($value)
     {
-        return $this->set_query_params('attachments', $value, 'json_encode_boolean');
+        return $this->setQueryParameters('attachments', $value, 'json_encode_boolean');
     }
 
-    public function att_encoding_info($value)
+    public function setAttEncodingInfo($value)
     {
-        return $this->set_query_params('att_encoding_info', $value, 'json_encode_boolean');
+        return $this->setQueryParameters('att_encoding_info', $value, 'json_encode_boolean');
     }
 
-    public function last_event_id($value)
+    public function setLastEventID($value)
     {
-        return $this->set_query_params('last-event-id', $value, 'int');
+        return $this->setQueryParameters('last-event-id', $value, 'int');
     }
 
-    public function limit($value)
+    public function setLimit($value)
     {
-        return $this->set_query_params('limit', $value, 'int');
+        return $this->setQueryParameters('limit', $value, 'int');
     }
 
-    public function since($value)
+    public function setSince($value)
     {
-        return $this->set_query_params('since', $value, 'int');
+        return $this->setQueryParameters('since', $value, 'int');
     }
 
-    public function style($value)
+    public function setStyle($value)
     {
-        return $this->set_query_params('style', $value, 'string');
+        return $this->setQueryParameters('style', $value, 'string');
     }
 
-    public function changes_timeout($value)
+    public function setChangesTimeout($value)
     {
-        return $this->set_query_params('timeout', $value, 'int');
+        return $this->setQueryParameters('timeout', $value, 'int');
     }
 
-    public function view($value)
+    public function setView($value)
     {
-        return $this->set_query_params('view', $value, 'string');
+        return $this->setQueryParameters('view', $value, 'string');
     }
 }

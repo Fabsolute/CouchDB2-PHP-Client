@@ -8,8 +8,6 @@
  */
 namespace Fabs\CouchDB2\Query;
 
-use MongoDB\Driver\Query;
-
 abstract class QueryBase
 {
     /**
@@ -41,7 +39,7 @@ abstract class QueryBase
     /**
      * @return string
      */
-    public function get_query_url()
+    public function getQueryUrl()
     {
         $query = http_build_query($this->query_parameters, null, '&');
         if (strlen($query) > 0) {
@@ -53,7 +51,7 @@ abstract class QueryBase
     /**
      * @return string
      */
-    public function get_query_method()
+    public function getQueryMethod()
     {
         return $this->query_method;
     }
@@ -61,7 +59,7 @@ abstract class QueryBase
     /**
      * @return array
      */
-    public function get_query_data()
+    public function getQueryData()
     {
         if (count($this->query_data) > 0) {
             return json_encode($this->query_data);
@@ -72,7 +70,7 @@ abstract class QueryBase
     /**
      * @return array
      */
-    public function get_query_headers()
+    public function getQueryHeaders()
     {
         return $this->query_headers;
     }
@@ -80,7 +78,7 @@ abstract class QueryBase
     /**
      * @return array
      */
-    public function get_query_options()
+    public function getQueryOptions()
     {
         return $this->query_options;
     }
@@ -88,7 +86,7 @@ abstract class QueryBase
     /**
      * @return array
      */
-    public function get_allowed_response_codes()
+    public function getAllowedResponseCodes()
     {
         return $this->allowed_response_codes;
     }
@@ -110,7 +108,7 @@ abstract class QueryBase
      * @param null $filter
      * @return QueryBase
      */
-    protected function set_query_params($name, $args, $filter = null)
+    protected function setQueryParameters($name, $args, $filter = null)
     {
 
         switch ($filter) {

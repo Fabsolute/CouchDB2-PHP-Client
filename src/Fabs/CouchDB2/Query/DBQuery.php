@@ -28,7 +28,7 @@ class DBQuery extends QueryBase
     /**
      * @return string
      */
-    public function get_database_name()
+    public function getDatabaseName()
     {
         return $this->database_name;
     }
@@ -36,10 +36,10 @@ class DBQuery extends QueryBase
     /**
      * @return string
      */
-    public function get_query_url()
+    public function getQueryUrl()
     {
-        $url = parent::get_query_url();
-        return sprintf('%s/%s', $this->get_database_name(), $url);
+        $url = parent::getQueryUrl();
+        return sprintf('%s/%s', $this->getDatabaseName(), $url);
     }
 
     public function execute()
@@ -64,7 +64,7 @@ class DBQuery extends QueryBase
         return $this;
     }
 
-    public function doc_exists($doc_id)
+    public function docExists($doc_id)
     {
         $this->reset();
         $this->execution_method = 'exists';
@@ -91,7 +91,7 @@ class DBQuery extends QueryBase
     /**
      * @return DBQuery
      */
-    public function get_info()
+    public function getInfo()
     {
         $this->reset();
         $this->execution_method = 'get_info';
@@ -100,7 +100,7 @@ class DBQuery extends QueryBase
         return $this;
     }
 
-    public function cleanup_views()
+    public function cleanupViews()
     {
         $this->reset();
         $this->execution_method = 'cleanup_views';
@@ -110,7 +110,7 @@ class DBQuery extends QueryBase
         return $this;
     }
 
-    public function ensure_full_commit()
+    public function ensureFullCommit()
     {
         $this->reset();
         $this->execution_method = 'ensure_full_commit';
@@ -120,27 +120,27 @@ class DBQuery extends QueryBase
         return $this;
     }
 
-    public function get_changes()
+    public function getChanges()
     {
         return new GetChangesDBQuery($this->couch_object, $this->database_name);
     }
 
-    public function get_doc($doc_id)
+    public function getDoc($doc_id)
     {
-        return new GetDocDBQuery($this->couch_object, $this->get_database_name(), $doc_id);
+        return new GetDocDBQuery($this->couch_object, $this->getDatabaseName(), $doc_id);
     }
 
-    public function save_doc($doc)
+    public function saveDoc($doc)
     {
-        return new SaveDocDBQuery($this->couch_object, $this->get_database_name(), $doc);
+        return new SaveDocDBQuery($this->couch_object, $this->getDatabaseName(), $doc);
     }
 
-    public function bulk_docs()
+    public function bulkDocs()
     {
-        return new BulkDocsDBQuery($this->couch_object, $this->get_database_name());
+        return new BulkDocsDBQuery($this->couch_object, $this->getDatabaseName());
     }
 
-    public function delete_doc($doc)
+    public function deleteDoc($doc)
     {
         $this->reset();
         $doc = (array)$doc;
@@ -149,15 +149,15 @@ class DBQuery extends QueryBase
             $this->query_url = $doc['_id'];
             $this->query_method = QueryMethods::DELETE;
             $this->allowed_response_codes = [QueryStatusCodes::SUCCESS];
-            $this->set_query_params('_rev', $doc['_rev'], 'string');
+            $this->setQueryParameters('_rev', $doc['_rev'], 'string');
             return $this;
         }
         throw new \InvalidArgumentException('doc must contains _id and _rev');
     }
 
 
-    public function get_view($view_id, $view_name)
+    public function getView($view_id, $view_name)
     {
-        return new GetViewDBQuery($this->couch_object, $this->get_database_name(), $view_id, $view_name);
+        return new GetViewDBQuery($this->couch_object, $this->getDatabaseName(), $view_id, $view_name);
     }
 }

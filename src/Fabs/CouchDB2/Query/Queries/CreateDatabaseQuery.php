@@ -23,7 +23,7 @@ class CreateDatabaseQuery extends QueryBase
         parent::__construct($couch_object);
     }
 
-    public function set_database_name($database_name)
+    public function setDatabaseName($database_name)
     {
         $this->query_url = $database_name;
     }

@@ -11,7 +11,6 @@ namespace Fabs\CouchDB2;
 
 class CouchDBException extends \Exception
 {
-    protected $status_code;
     protected $response;
     protected $url;
 
@@ -23,7 +22,6 @@ class CouchDBException extends \Exception
      */
     public function __construct($status_code, $response, $url)
     {
-        $this->status_code = $status_code;
         $this->response = $response;
         $this->url = $url;
 
@@ -31,17 +29,12 @@ class CouchDBException extends \Exception
         parent::__construct($message, $status_code);
     }
 
-    public function get_status_code()
-    {
-        return $this->status_code;
-    }
-
-    public function get_response()
+    public function getResponse()
     {
         return $this->response;
     }
 
-    public function get_url()
+    public function getUrl()
     {
         return $this->url;
     }
