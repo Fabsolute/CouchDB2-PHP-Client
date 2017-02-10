@@ -57,16 +57,6 @@ class Couch
         return new AllDatabasesQuery($this);
     }
 
-    public function createDatabase($database_name)
-    {
-        return new CreateDatabaseQuery($this, $database_name);
-    }
-
-    public function deleteDatabase($database_name)
-    {
-        return new DeleteDatabaseQuery($this, $database_name);
-    }
-
     public function getUUIDs($count = 1)
     {
         return new UUIDsQuery($this, $count);
@@ -75,6 +65,16 @@ class Couch
     public function selectDatabase($database_name)
     {
         return new DBQuery($this, $database_name);
+    }
+
+    public function createDatabase($database_name)
+    {
+        return new CreateDatabaseQuery($this, $database_name);
+    }
+
+    public function deleteDatabase($database_name)
+    {
+        return new DeleteDatabaseQuery($this, $database_name);
     }
 
     #endregion
