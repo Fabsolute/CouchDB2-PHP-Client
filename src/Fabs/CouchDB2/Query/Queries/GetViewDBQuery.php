@@ -118,15 +118,6 @@ class GetViewDBQuery extends DBQuery
      * @param $value
      * @return GetViewDBQuery
      */
-    public function setKey($value)
-    {
-        return $this->setQueryParameters('key', $value, 'json_encode');
-    }
-
-    /**
-     * @param $value
-     * @return GetViewDBQuery
-     */
     public function setKeys($value)
     {
         $this->query_data['keys'] = $value;
@@ -239,8 +230,15 @@ class GetViewDBQuery extends DBQuery
 
     public function execute()
     {
-        if (isset($this->query_data['keys']) && count($this->query_data['keys'])) {
-            $this->query_method = QueryMethods::POST;
+        if (isset($this->query_data['keys'])) {
+            if (count($this->query_data['keys']) > 1) {
+                $this->query_method = QueryMethods::POST;
+            } elseif (count($this->query_data['keys'])) {
+                $this->setQueryParameters('key', $this->query_data['keys'][0], 'json_encode');
+                unset($this->query_data['keys']);
+            } else {
+                unset($this->query_data['keys']);
+            }
         }
         return parent::execute();
     }
