@@ -14,7 +14,8 @@ class CouchDBException extends \Exception
     protected $url;
     protected $request;
     protected $response;
-    protected $body;
+    protected $request_body;
+    protected $response_body;
 
     /**
      * CouchDB2Exception constructor.
@@ -28,9 +29,10 @@ class CouchDBException extends \Exception
         $this->request = $request;
         $this->url = sprintf('%s%s?%s', $base_server_url, $request->getUri()->getPath(), $request->getUri()->getQuery());
         $status_code = $response->getStatusCode();
-        $this->body = json_decode($request->getBody(), false);
+        $this->request_body = json_decode($request->getBody(), false);
+        $this->response_body = json_decode($response->getBody(), false);
 
-        $message = sprintf('Status Code: %s, Couch Response: %s', $status_code, json_encode($response));
+        $message = sprintf('Status Code: %s, Couch Response: %s', $status_code, json_encode($this->response_body));
         parent::__construct($message, $status_code);
     }
 
@@ -52,8 +54,15 @@ class CouchDBException extends \Exception
     /**
      * @return mixed
      */
-    public function getBody(){
-        return $this->body;
+    public function getResponseBody(){
+        return $this->response_body;
+    }
+
+    /**
+     * @return mixed
+     */
+    public function getRequestBody(){
+        return $this->request_body;
     }
 
     public function getUrl()
