@@ -98,7 +98,7 @@ class Couch
             }
             return true;
         } else {
-            throw new CouchDBException($response->getStatusCode(), $response->getBody(), $url);
+            throw new CouchDBException($response->getStatusCode(), json_decode($response->getBody(), !$this->should_return_object), $url);
         }
     }
 
