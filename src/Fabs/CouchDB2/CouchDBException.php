@@ -11,27 +11,49 @@ namespace Fabs\CouchDB2;
 
 class CouchDBException extends \Exception
 {
-    protected $response;
     protected $url;
+    protected $request;
+    protected $response;
+    protected $body;
 
     /**
      * CouchDB2Exception constructor.
-     * @param string $status_code
-     * @param int $response
-     * @param string $url
+     * @param string $base_server_url
+     * @param \GuzzleHttp\Psr7\Request $request
+     * @param \GuzzleHttp\Psr7\Response $response
      */
-    public function __construct($status_code, $response, $url)
+    public function __construct($base_server_url, $request, $response)
     {
         $this->response = $response;
-        $this->url = $url;
+        $this->request = $request;
+        $this->url = sprintf('%s%s?%s', $base_server_url, $request->getUri()->getPath(), $request->getUri()->getQuery());
+        $status_code = $response->getStatusCode();
+        $this->body = json_decode($request->getBody(), false);
 
         $message = sprintf('Status Code: %s, Couch Response: %s', $status_code, json_encode($response));
         parent::__construct($message, $status_code);
     }
 
+    /**
+     * @return \GuzzleHttp\Psr7\Response
+     */
     public function getResponse()
     {
         return $this->response;
+    }
+
+    /**
+     * @return \GuzzleHttp\Psr7\Request
+     */
+    public function getRequest(){
+        return $this->request;
+    }
+
+    /**
+     * @return mixed
+     */
+    public function getBody(){
+        return $this->body;
     }
 
     public function getUrl()
