@@ -83,12 +83,12 @@ class Couch
 
     /**
      * @param $response Response
-     * @param $url string
+     * @param $request Request
      * @param $allowed_status_codes
      * @return mixed
      * @throws CouchDBException
      */
-    protected function testResponse($response, $url, $allowed_status_codes)
+    protected function testResponse($response, $request, $allowed_status_codes)
     {
         if (in_array($response->getStatusCode(), $allowed_status_codes)) {
             $body = $response->getBody();
@@ -98,7 +98,7 @@ class Couch
             }
             return true;
         } else {
-            throw new CouchDBException($response->getStatusCode(), $response->getBody(), $url);
+            throw new CouchDBException($this->getServerUrl(),$request, $response);
         }
     }
 
@@ -128,7 +128,7 @@ class Couch
         $request = new Request($query_method, $execution_url, $execution_headers, $query_data);
         $response = $client->send($request);
 
-        $response = $this->testResponse($response, sprintf('%s%s', $this->getServerUrl(), $execution_url), $allowed_response_codes);
+        $response = $this->testResponse($response, $request, $allowed_response_codes);
         return $response;
     }
 
