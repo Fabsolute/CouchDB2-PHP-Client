@@ -149,7 +149,7 @@ class DBQuery extends QueryBase
             $this->query_url = $doc['_id'];
             $this->query_method = QueryMethods::DELETE;
             $this->allowed_response_codes = [QueryStatusCodes::SUCCESS];
-            $this->setQueryParameters('_rev', $doc['_rev'], 'string');
+            $this->setQueryParameters('rev', $doc['_rev'], 'string');
             return $this;
         }
         throw new \InvalidArgumentException('doc must contains _id and _rev');
