@@ -12,8 +12,8 @@ $client = new CouchDB($config);
 
 // Get document by ID
 $doc = $client
-       ->select_database('test_database')
-       ->get_doc('some_doc_id')
+       ->selectDatabase('test_database')
+       ->getDoc('some_doc_id')
        ->execute();
 
 TODO
