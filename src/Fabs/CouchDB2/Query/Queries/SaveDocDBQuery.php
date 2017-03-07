@@ -75,15 +75,15 @@ class SaveDocDBQuery extends DBQuery
     {
         $output = parent::execute();
         if ($this->should_update) {
-            if (isset($output['_id']) && isset($output['_rev'])) {
+            if (isset($output['id']) && isset($output['rev'])) {
                 if ($this->query_doc != null) {
                     if (!is_a($this->query_doc, 'Fabs\\CouchDB2\\Http\\Response')) {
                         if (is_object($this->query_doc)) {
-                            $this->query_doc->_id = $output['_id'];
-                            $this->query_doc->_rev = $output['_rev'];
+                            $this->query_doc->_id = $output['id'];
+                            $this->query_doc->_rev = $output['rev'];
                         } else {
-                            $this->query_doc['_id'] = $output['_id'];
-                            $this->query_doc['_rev'] = $output['_rev'];
+                            $this->query_doc['_id'] = $output['id'];
+                            $this->query_doc['_rev'] = $output['rev'];
                         }
                         return $this->query_doc;
                     }

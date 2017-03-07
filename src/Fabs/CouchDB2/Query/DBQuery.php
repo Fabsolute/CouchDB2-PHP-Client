@@ -131,6 +131,11 @@ class DBQuery extends QueryBase
         return new GetDocDBQuery($this->couch_object, $this->getDatabaseName(), $doc_id);
     }
 
+    public function getAllDocs()
+    {
+        return new GetAllDocsDBQuery($this->couch_object, $this->getDatabaseName());
+    }
+
     public function saveDoc($doc)
     {
         return new SaveDocDBQuery($this->couch_object, $this->getDatabaseName(), $doc);
