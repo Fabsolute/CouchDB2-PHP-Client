@@ -9,6 +9,7 @@
 namespace Fabs\CouchDB2\Query;
 
 use Fabs\CouchDB2\Query\Queries\BulkDocsDBQuery;
+use Fabs\CouchDB2\Query\Queries\GetAllDocsDBQuery;
 use Fabs\CouchDB2\Query\Queries\GetChangesDBQuery;
 use Fabs\CouchDB2\Query\Queries\GetDocDBQuery;
 use Fabs\CouchDB2\Query\Queries\GetViewDBQuery;
