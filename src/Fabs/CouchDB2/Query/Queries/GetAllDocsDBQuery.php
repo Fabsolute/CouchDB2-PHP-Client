@@ -18,7 +18,7 @@ class GetAllDocsDBQuery extends DBQuery
     public function __construct($couch_object, $database_name)
     {
         $this->reset();
-        $this->execution_method = 'get_all_doc';
+        $this->query_url = '_all_docs';
         $this->query_method = QueryMethods::GET;
         $this->allowed_response_codes = [QueryStatusCodes::SUCCESS];
         parent::__construct($couch_object, $database_name);
