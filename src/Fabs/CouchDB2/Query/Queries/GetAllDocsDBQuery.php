@@ -44,7 +44,7 @@ class GetAllDocsDBQuery extends DBQuery
 
     /**
      * @param $value
-     * @return GetViewDBQuery
+     * @return GetAllDocsDBQuery
      */
     public function setEndKey($value)
     {
@@ -53,7 +53,7 @@ class GetAllDocsDBQuery extends DBQuery
 
     /**
      * @param $value
-     * @return GetViewDBQuery
+     * @return GetAllDocsDBQuery
      */
     public function setEndKeyDocID($value)
     {
@@ -62,7 +62,7 @@ class GetAllDocsDBQuery extends DBQuery
 
     /**
      * @param $value
-     * @return GetViewDBQuery
+     * @return GetAllDocsDBQuery
      */
     public function setStartKey($value)
     {
@@ -71,7 +71,7 @@ class GetAllDocsDBQuery extends DBQuery
 
     /**
      * @param $value
-     * @return GetViewDBQuery
+     * @return GetAllDocsDBQuery
      */
     public function setStartKeyDocID($value)
     {
@@ -80,7 +80,7 @@ class GetAllDocsDBQuery extends DBQuery
 
     /**
      * @param $value
-     * @return GetViewDBQuery
+     * @return GetAllDocsDBQuery
      */
     public function setInclusiveEnd($value)
     {
@@ -89,7 +89,7 @@ class GetAllDocsDBQuery extends DBQuery
 
     /**
      * @param $value
-     * @return GetViewDBQuery
+     * @return GetAllDocsDBQuery
      */
     public function setIncludeDocs($value)
     {
@@ -98,7 +98,7 @@ class GetAllDocsDBQuery extends DBQuery
 
     /**
      * @param $value
-     * @return GetViewDBQuery
+     * @return GetAllDocsDBQuery
      */
     public function setKeys($value)
     {
@@ -108,7 +108,7 @@ class GetAllDocsDBQuery extends DBQuery
 
     /**
      * @param $value
-     * @return GetViewDBQuery
+     * @return GetAllDocsDBQuery
      */
     public function addKey($value)
     {
@@ -122,7 +122,7 @@ class GetAllDocsDBQuery extends DBQuery
 
     /**
      * @param $value
-     * @return GetViewDBQuery $this
+     * @return GetAllDocsDBQuery $this
      */
     public function setLimit($value)
     {
@@ -131,7 +131,7 @@ class GetAllDocsDBQuery extends DBQuery
 
     /**
      * @param $value
-     * @return GetViewDBQuery
+     * @return GetAllDocsDBQuery
      */
     public function setSkip($value)
     {
@@ -140,7 +140,7 @@ class GetAllDocsDBQuery extends DBQuery
 
     /**
      * @param $value
-     * @return GetViewDBQuery
+     * @return GetAllDocsDBQuery
      */
     public function setStale($value)
     {
@@ -149,7 +149,7 @@ class GetAllDocsDBQuery extends DBQuery
 
     /**
      * @param $value
-     * @return GetViewDBQuery
+     * @return GetAllDocsDBQuery
      */
     public function setUpdateSeq($value)
     {
