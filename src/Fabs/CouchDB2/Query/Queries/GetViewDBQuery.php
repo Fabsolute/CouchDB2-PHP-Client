@@ -14,13 +14,13 @@ use Fabs\CouchDB2\Query\QueryStatusCodes;
 
 class GetViewDBQuery extends DBQuery
 {
-    public function __construct($couch_object, $database_name, $view_id, $view_name)
+    public function __construct($couch_object, $database_name, $design_doc_id, $view_name)
     {
         $this->reset();
         $this->execution_method = 'get_view';
         $this->query_method = QueryMethods::GET;
         $this->allowed_response_codes = [QueryStatusCodes::SUCCESS];
-        $this->query_url = sprintf('_design/%s/_view/%s', $view_id, $view_name);
+        $this->query_url = sprintf('_design/%s/_view/%s', $design_doc_id, $view_name);
         parent::__construct($couch_object, $database_name);
     }
 
