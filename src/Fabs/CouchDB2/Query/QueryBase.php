@@ -62,6 +62,12 @@ abstract class QueryBase
     public function getQueryData()
     {
         if (count($this->query_data) > 0) {
+            if (array_key_exists('Content-Type', $this->getQueryHeaders())) {
+                $content_type = $this->getQueryHeaders()['Content-Type'];
+                if ($content_type == 'application/x-www-form-urlencoded') {
+                    return http_build_query($this->query_data, null, '&');
+                }
+            }
             return json_encode($this->query_data);
         }
         return '';
