@@ -30,6 +30,7 @@ class DeleteDatabaseQuery extends QueryBase
 
     public function execute()
     {
+        // TODO unutmaxd
         if (empty($this->query_url)) {
             throw  new \Exception('Database name cannot be null');
         }

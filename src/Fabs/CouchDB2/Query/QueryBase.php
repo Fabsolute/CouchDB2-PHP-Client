@@ -8,6 +8,8 @@
  */
 namespace Fabs\CouchDB2\Query;
 
+use Fabs\CouchDB2\Response\BaseResponse;
+
 abstract class QueryBase
 {
     /**
@@ -29,11 +31,12 @@ abstract class QueryBase
     }
 
     /**
-     * @return mixed
+     * @return BaseResponse
      */
     public function execute()
     {
-        return $this->couch_object->execute($this);
+        $data =  $this->couch_object->execute($this);
+        return new BaseResponse($data);
     }
 
     /**

@@ -48,7 +48,8 @@ class DBQuery extends QueryBase
     {
         $execution = parent::execute();
         if ($this->execution_method == 'exists') {
-            if ($execution->status_code == 200) {
+            $data = $execution->getRawData();
+            if ($data['status_code'] == 200) {
                 return true;
             }
             return false;

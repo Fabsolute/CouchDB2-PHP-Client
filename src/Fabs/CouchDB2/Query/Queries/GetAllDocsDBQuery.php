@@ -12,6 +12,7 @@ namespace Fabs\CouchDB2\Query\Queries;
 use Fabs\CouchDB2\Query\DBQuery;
 use Fabs\CouchDB2\Query\QueryMethods;
 use Fabs\CouchDB2\Query\QueryStatusCodes;
+use Fabs\CouchDB2\Response\ViewResponse;
 
 class GetAllDocsDBQuery extends DBQuery
 {
@@ -156,6 +157,9 @@ class GetAllDocsDBQuery extends DBQuery
         return $this->setQueryParameters('update_seq', $value, 'json_encode_boolean');
     }
 
+    /**
+     * @return ViewResponse
+     */
     public function execute()
     {
         if (isset($this->query_data['keys'])) {
@@ -168,7 +172,8 @@ class GetAllDocsDBQuery extends DBQuery
                 unset($this->query_data['keys']);
             }
         }
-        return parent::execute();
+        $response = parent::execute();
+        return new ViewResponse($response->getRawData());
     }
 
 }

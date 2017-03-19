@@ -15,7 +15,6 @@ use Fabs\CouchDB2\Query\QueryStatusCodes;
 
 class SaveDocDBQuery extends DBQuery
 {
-    protected $should_update = false;
     protected $query_doc;
 
     public function __construct($couch_object, $database_name, $doc)
@@ -35,14 +34,6 @@ class SaveDocDBQuery extends DBQuery
             $this->allowed_response_codes = [QueryStatusCodes::CREATED];
         }
         parent::__construct($couch_object, $database_name);
-    }
-
-    public function setShouldUpdate($value)
-    {
-        if (is_bool($value)) {
-            $this->should_update = $value;
-        }
-        return $this;
     }
 
     public function setIfMatch($value)
@@ -70,27 +61,4 @@ class SaveDocDBQuery extends DBQuery
     {
         return $this->setQueryParameters('new_edits', $value, 'json_encode_bool');
     }
-
-    public function execute()
-    {
-        $output = parent::execute();
-        if ($this->should_update) {
-            if (isset($output['id']) && isset($output['rev'])) {
-                if ($this->query_doc != null) {
-                    if (!is_a($this->query_doc, 'Fabs\\CouchDB2\\Http\\Response')) {
-                        if (is_object($this->query_doc)) {
-                            $this->query_doc->_id = $output['id'];
-                            $this->query_doc->_rev = $output['rev'];
-                        } else {
-                            $this->query_doc['_id'] = $output['id'];
-                            $this->query_doc['_rev'] = $output['rev'];
-                        }
-                        return $this->query_doc;
-                    }
-                }
-            }
-        }
-        return $output;
-    }
-
 }

@@ -9,9 +9,11 @@
 namespace Fabs\CouchDB2\Query\Queries;
 
 
+use Fabs\CouchDB2\Model\SerializableObject;
 use Fabs\CouchDB2\Query\QueryBase;
 use Fabs\CouchDB2\Query\QueryMethods;
 use Fabs\CouchDB2\Query\QueryStatusCodes;
+use Fabs\CouchDB2\Response\UUIDResponse;
 
 class UUIDsQuery extends QueryBase
 {
@@ -31,5 +33,14 @@ class UUIDsQuery extends QueryBase
             throw new \InvalidArgumentException('count should be greater than 0');
         }
         return $this->setQueryParameters('count', $count, 'int');
+    }
+
+    /**
+     * @return UUIDResponse
+     */
+    public function execute()
+    {
+        $data = parent::execute();
+        return UUIDResponse::deserialize($data->getRawData());
     }
 }
