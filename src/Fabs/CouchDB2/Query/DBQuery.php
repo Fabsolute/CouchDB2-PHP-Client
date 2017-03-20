@@ -8,6 +8,7 @@
  */
 namespace Fabs\CouchDB2\Query;
 
+use Fabs\CouchDB2\Model\SerializableObject;
 use Fabs\CouchDB2\Query\Queries\BulkDocsDBQuery;
 use Fabs\CouchDB2\Query\Queries\GetAllDocsDBQuery;
 use Fabs\CouchDB2\Query\Queries\GetChangesDBQuery;
@@ -15,6 +16,7 @@ use Fabs\CouchDB2\Query\Queries\GetDocDBQuery;
 use Fabs\CouchDB2\Query\Queries\GetUpdateHandlerDBQuery;
 use Fabs\CouchDB2\Query\Queries\GetViewDBQuery;
 use Fabs\CouchDB2\Query\Queries\SaveDocDBQuery;
+use Fabs\CouchDB2\Response\BaseResponse;
 
 class DBQuery extends QueryBase
 {
@@ -44,6 +46,9 @@ class DBQuery extends QueryBase
         return sprintf('%s/%s', $this->getDatabaseName(), $url);
     }
 
+    /**
+     * @return bool|BaseResponse
+     */
     public function execute()
     {
         $execution = parent::execute();
@@ -56,7 +61,6 @@ class DBQuery extends QueryBase
         }
         return $execution;
     }
-
 
     public function exists()
     {

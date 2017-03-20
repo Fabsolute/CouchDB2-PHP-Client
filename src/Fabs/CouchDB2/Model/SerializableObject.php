@@ -107,7 +107,7 @@ abstract class SerializableObject implements \JsonSerializable
 
     /**
      * @param $data
-     * @return self
+     * @return SerializableObject
      */
     public static function deserialize($data)
     {

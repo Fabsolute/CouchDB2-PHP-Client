@@ -15,9 +15,9 @@ class ViewResponse extends BaseResponse
     protected $offset = 0;
     protected $rows = [];
 
-    public function __construct($data)
+    public function __construct()
     {
-        parent::__construct($data);
+        parent::__construct();
         $this->registerProperty($this->rows, ViewResponseElement::class, true);
     }
 

@@ -26,11 +26,18 @@ class BaseResponse extends SerializableObject
         $this->data = $data;
     }
 
+    /**
+     * @return array
+     */
     public function getRawData()
     {
         return $this->data;
     }
 
+    /**
+     * @param $type
+     * @return SerializableObject
+     */
     public function toObject($type)
     {
         return SerializableObject::create($this->getRawData(), $type);

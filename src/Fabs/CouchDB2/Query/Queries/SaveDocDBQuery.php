@@ -9,9 +9,11 @@
 namespace Fabs\CouchDB2\Query\Queries;
 
 
+use Fabs\CouchDB2\Model\SerializableObject;
 use Fabs\CouchDB2\Query\DBQuery;
 use Fabs\CouchDB2\Query\QueryMethods;
 use Fabs\CouchDB2\Query\QueryStatusCodes;
+use Fabs\CouchDB2\Response\DocumentResponseElement;
 
 class SaveDocDBQuery extends DBQuery
 {
@@ -60,5 +62,14 @@ class SaveDocDBQuery extends DBQuery
     public function setNewEdits($value)
     {
         return $this->setQueryParameters('new_edits', $value, 'json_encode_bool');
+    }
+
+    /**
+     * @return SerializableObject|DocumentResponseElement
+     */
+    public function execute()
+    {
+        $response =  parent::execute();
+        return DocumentResponseElement::deserialize($response->getRawData());
     }
 }

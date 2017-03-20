@@ -8,6 +8,7 @@
  */
 namespace Fabs\CouchDB2\Query;
 
+use Fabs\CouchDB2\Model\SerializableObject;
 use Fabs\CouchDB2\Response\BaseResponse;
 
 abstract class QueryBase
@@ -31,12 +32,12 @@ abstract class QueryBase
     }
 
     /**
-     * @return BaseResponse
+     * @return SerializableObject|BaseResponse
      */
     public function execute()
     {
         $data =  $this->couch_object->execute($this);
-        return new BaseResponse($data);
+        return BaseResponse::deserialize($data);
     }
 
     /**

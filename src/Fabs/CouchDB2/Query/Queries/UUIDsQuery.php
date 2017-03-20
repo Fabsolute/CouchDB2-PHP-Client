@@ -36,7 +36,7 @@ class UUIDsQuery extends QueryBase
     }
 
     /**
-     * @return UUIDResponse
+     * @return SerializableObject|UUIDResponse
      */
     public function execute()
     {

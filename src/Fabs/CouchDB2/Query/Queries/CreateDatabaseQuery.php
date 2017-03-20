@@ -30,7 +30,6 @@ class CreateDatabaseQuery extends QueryBase
 
     public function execute()
     {
-        // TODO Execute
         if (empty($this->query_url)) {
             throw  new \Exception('Database name cannot be null');
         }
