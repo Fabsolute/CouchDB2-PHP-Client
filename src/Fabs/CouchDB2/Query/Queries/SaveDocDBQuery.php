@@ -9,6 +9,7 @@
 namespace Fabs\CouchDB2\Query\Queries;
 
 
+use Fabs\CouchDB2\Model\CouchObject;
 use Fabs\CouchDB2\Model\SerializableObject;
 use Fabs\CouchDB2\Query\DBQuery;
 use Fabs\CouchDB2\Query\QueryMethods;
@@ -17,14 +18,15 @@ use Fabs\CouchDB2\Response\DocumentResponseElement;
 
 class SaveDocDBQuery extends DBQuery
 {
-    protected $query_doc;
-
     public function __construct($couch_object, $database_name, $doc)
     {
         $this->reset();
         $this->execution_method = 'save_doc';
-        $this->query_doc = $doc;
-        $doc = (array)$doc;
+        if ($doc instanceof CouchObject) {
+            $doc = $doc->serializeToArray();
+        } elseif (!is_array($doc)) {
+            $doc = (array)$doc;
+        }
         $this->query_data = $doc;
 
         if (isset($doc['_id']) && !empty($doc['_id']) && isset($doc['_rev']) && !empty($doc['_rev'])) {
@@ -69,7 +71,7 @@ class SaveDocDBQuery extends DBQuery
      */
     public function execute()
     {
-        $response =  parent::execute();
+        $response = parent::execute();
         return DocumentResponseElement::deserialize($response->getRawData());
     }
 }
