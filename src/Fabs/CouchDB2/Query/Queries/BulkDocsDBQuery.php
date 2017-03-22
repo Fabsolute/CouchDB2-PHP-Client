@@ -9,9 +9,11 @@
 namespace Fabs\CouchDB2\Query\Queries;
 
 
+use Fabs\CouchDB2\Model\SerializableObject;
 use Fabs\CouchDB2\Query\DBQuery;
 use Fabs\CouchDB2\Query\QueryMethods;
 use Fabs\CouchDB2\Query\QueryStatusCodes;
+use Fabs\CouchDB2\Response\BulkDocsResponse;
 
 class BulkDocsDBQuery extends DBQuery
 {
@@ -56,5 +58,14 @@ class BulkDocsDBQuery extends DBQuery
             $this->query_data['new_edits'] = $value;
         }
         return $this;
+    }
+
+    /**
+     * @return SerializableObject|BulkDocsResponse
+     */
+    public function execute()
+    {
+        $response = parent::execute();
+        return BulkDocsResponse::deserialize($response->getRawData());
     }
 }
