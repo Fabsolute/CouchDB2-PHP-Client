@@ -13,6 +13,9 @@ class UUIDResponse extends BaseResponse
 {
     public $uuids = [];
 
+    /**
+     * @return string[]
+     */
     public function getUUIDs()
     {
         return $this->uuids;

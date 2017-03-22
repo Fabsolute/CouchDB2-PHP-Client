@@ -32,16 +32,25 @@ class ViewResponse extends BaseResponse
         return null;
     }
 
+    /**
+     * @return ViewResponseElement[]
+     */
     public function getRows()
     {
         return $this->rows;
     }
 
+    /**
+     * @return int
+     */
     public function getTotalRows()
     {
         return $this->total_rows;
     }
 
+    /**
+     * @return int
+     */
     public function getOffset()
     {
         return $this->offset;
