@@ -18,7 +18,7 @@ class ViewResponse extends BaseResponse
     public function __construct()
     {
         parent::__construct();
-        $this->registerProperty($this->rows, ViewResponseElement::class, true);
+        $this->registerProperty('rows', ViewResponseElement::class, true);
     }
 
     /**
