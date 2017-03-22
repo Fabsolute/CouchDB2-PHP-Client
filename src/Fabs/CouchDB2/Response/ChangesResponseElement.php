@@ -17,16 +17,25 @@ class ChangesResponseElement extends SerializableObject
     protected $changes = null;
     protected $seq = null;
 
+    /**
+     * @return array
+     */
     public function getChanges()
     {
         return $this->changes;
     }
 
+    /**
+     * @return string
+     */
     public function getID()
     {
         return $this->id;
     }
 
+    /**
+     * @return string
+     */
     public function getSeq()
     {
         return $this->seq;
