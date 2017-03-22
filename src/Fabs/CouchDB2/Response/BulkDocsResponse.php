@@ -13,11 +13,6 @@ class BulkDocsResponse extends BaseResponse
 {
     protected $docs = [];
 
-    public function __construct()
-    {
-        parent::__construct();
-    }
-
     /**
      * @return DocumentResponseElement
      */
