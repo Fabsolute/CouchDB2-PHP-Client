@@ -18,11 +18,15 @@ use Fabs\CouchDB2\Response\DocumentResponseElement;
 
 class SaveDocDBQuery extends DBQuery
 {
+    /** @var CouchObject */
+    private $save_object_document = null;
+
     public function __construct($couch_object, $database_name, $doc)
     {
         $this->reset();
         $this->execution_method = 'save_doc';
         if ($doc instanceof CouchObject) {
+            $this->save_object_document = $doc;
             $doc = $doc->serializeToArray();
         } elseif (!is_array($doc)) {
             $doc = (array)$doc;
@@ -72,6 +76,14 @@ class SaveDocDBQuery extends DBQuery
     public function execute()
     {
         $response = parent::execute();
-        return DocumentResponseElement::deserialize($response->getRawData());
+        /** @var DocumentResponseElement $document_response */
+        $document_response = DocumentResponseElement::deserialize($response->getRawData());
+
+        if ($this->save_object_document != null) {
+            $this->save_object_document->_id = $document_response->getID();
+            $this->save_object_document->_rev = $document_response->getRev();
+        }
+
+        return $document_response;
     }
 }

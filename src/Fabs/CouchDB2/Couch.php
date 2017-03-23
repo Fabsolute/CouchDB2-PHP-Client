@@ -28,7 +28,6 @@ class Couch
 
     protected $default_request_options = [];
     protected $default_headers = [];
-    protected $should_return_object = false;
 
     public function __construct($config)
     {
@@ -37,12 +36,6 @@ class Couch
         $this->default_request_options['timeout'] = 300;
         $this->default_headers['Content-Type'] = 'application/json';
         $this->default_headers['Accept'] = 'application/json,text/html,text/plain,*/*';
-    }
-
-    public function setShouldReturnObject($value)
-    {
-        $this->should_return_object = $value;
-        return $this;
     }
 
     public function getServerUrl()
@@ -93,7 +86,7 @@ class Couch
         if (in_array($response->getStatusCode(), $allowed_status_codes)) {
             $body = $response->getBody();
             if (!empty($body)) {
-                $body = json_decode($body, !$this->should_return_object);
+                $body = json_decode($body, true);
                 return $body;
             }
             return true;
