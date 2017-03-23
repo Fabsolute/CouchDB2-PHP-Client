@@ -47,6 +47,10 @@ abstract class SerializableObject implements \JsonSerializable
     public function deserializeFromArray($data)
     {
         foreach ($data as $key => $value) {
+            if (in_array($key, $this->non_serializable_properties)) {
+                continue;
+            }
+
             if (property_exists($this, $key)) {
                 if (array_key_exists($key, $this->registered_properties)) {
                     $registered_type = $this->registered_properties[$key];
