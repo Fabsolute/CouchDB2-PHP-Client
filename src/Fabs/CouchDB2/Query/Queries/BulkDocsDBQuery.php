@@ -9,6 +9,7 @@
 namespace Fabs\CouchDB2\Query\Queries;
 
 
+use Fabs\CouchDB2\Model\CouchObject;
 use Fabs\CouchDB2\Model\SerializableObject;
 use Fabs\CouchDB2\Query\DBQuery;
 use Fabs\CouchDB2\Query\QueryMethods;
@@ -17,6 +18,9 @@ use Fabs\CouchDB2\Response\BulkDocsResponse;
 
 class BulkDocsDBQuery extends DBQuery
 {
+    /** @var CouchObject[] */
+    protected $doc_list = [];
+
     public function __construct($couch_object, $database_name)
     {
         $this->reset();
@@ -32,15 +36,23 @@ class BulkDocsDBQuery extends DBQuery
     public function addDocs($docs)
     {
         foreach ($docs as $doc) {
-            $this->query_data['docs'][] = (array)$doc;
+            $this->addDoc($doc);
         }
         return $this;
     }
 
     public function addDoc($doc)
     {
-        $doc = (array)$doc;
-        $this->query_data['docs'][] = $doc;
+        if ($doc instanceof CouchObject) {
+            $this->doc_list[] = $doc;
+            $this->query_data['docs'][] = $doc->serializeToArray();
+        } else if (!is_array($doc)) {
+            $this->doc_list[] = null;
+            $this->query_data['docs'][] = (array)$doc;
+        } else {
+            $this->doc_list[] = null;
+            $this->query_data['docs'][] = $doc;
+        }
         return $this;
     }
 
@@ -66,6 +78,17 @@ class BulkDocsDBQuery extends DBQuery
     public function execute()
     {
         $response = parent::execute();
-        return BulkDocsResponse::deserialize($response->getRawData());
+        /** @var BulkDocsResponse $bulk_response */
+        $bulk_response = BulkDocsResponse::deserialize($response->getRawData());
+        $counter = 0;
+        foreach ($bulk_response->getDocs() as $document) {
+            if ($this->doc_list[$counter] != null) {
+                $this->doc_list[$counter]->_id = $document->getID();
+                $this->doc_list[$counter]->_rev = $document->getRev();
+            }
+            $counter++;
+        }
+
+        return $bulk_response;
     }
 }

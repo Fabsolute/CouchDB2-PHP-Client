@@ -18,7 +18,7 @@ class ViewResponse extends BaseResponse
     public function __construct()
     {
         parent::__construct();
-        $this->registerProperty($this->rows, ViewResponseElement::class, true);
+        $this->registerProperty('rows', ViewResponseElement::class, true);
     }
 
     /**
@@ -32,16 +32,25 @@ class ViewResponse extends BaseResponse
         return null;
     }
 
+    /**
+     * @return ViewResponseElement[]
+     */
     public function getRows()
     {
         return $this->rows;
     }
 
+    /**
+     * @return int
+     */
     public function getTotalRows()
     {
         return $this->total_rows;
     }
 
+    /**
+     * @return int
+     */
     public function getOffset()
     {
         return $this->offset;

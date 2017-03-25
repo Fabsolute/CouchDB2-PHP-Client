@@ -17,11 +17,17 @@ class DocumentResponseElement extends SerializableObject
     protected $rev = null;
     protected $ok = null;
 
+    /**
+     * @return string
+     */
     public function getID()
     {
         return $this->id;
     }
 
+    /**
+     * @return string
+     */
     public function getRev()
     {
         return $this->rev;
