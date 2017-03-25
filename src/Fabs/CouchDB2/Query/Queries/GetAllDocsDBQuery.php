@@ -9,6 +9,7 @@
 namespace Fabs\CouchDB2\Query\Queries;
 
 
+use Fabs\CouchDB2\Model\SerializableObject;
 use Fabs\CouchDB2\Query\DBQuery;
 use Fabs\CouchDB2\Query\QueryMethods;
 use Fabs\CouchDB2\Query\QueryStatusCodes;
@@ -158,7 +159,7 @@ class GetAllDocsDBQuery extends DBQuery
     }
 
     /**
-     * @return ViewResponse
+     * @return SerializableObject|ViewResponse
      */
     public function execute()
     {
@@ -173,7 +174,7 @@ class GetAllDocsDBQuery extends DBQuery
             }
         }
         $response = parent::execute();
-        return new ViewResponse($response->getRawData());
+        return ViewResponse::deserialize($response->getRawData());
     }
 
 }
