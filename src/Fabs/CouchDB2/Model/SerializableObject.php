@@ -74,7 +74,17 @@ abstract class SerializableObject implements \JsonSerializable
             if ($value instanceof SerializableObject) {
                 $output[$key] = $value->serializeToArray();
             } else {
-                $output[$key] = $value;
+                if (is_array($output[$key])) {
+                    foreach ($output[$key] as $key2 => $value2) {
+                        if ($value2 instanceof SerializableObject) {
+                            $output[$key][$key2] = $value2->jsonSerialize();
+                        } else {
+                            $output[$key][$key2] = $value2;
+                        }
+                    }
+                } else {
+                    $output[$key] = $value;
+                }
             }
         }
 
@@ -166,15 +176,11 @@ abstract class SerializableObject implements \JsonSerializable
             throw new \InvalidArgumentException("class_name {$class_name} cannot found on namespace");
         }
 
-        try {
-            $output = new $class_name();
-            if ($output instanceof SerializableObject) {
-                $output->deserializeFromArray($data);
-            }
-            return $output;
-        } catch (\Exception $e) {
-            return null;
+        $output = new $class_name();
+        if ($output instanceof SerializableObject) {
+            $output->deserializeFromArray($data);
         }
+        return $output;
     }
 
     /**
