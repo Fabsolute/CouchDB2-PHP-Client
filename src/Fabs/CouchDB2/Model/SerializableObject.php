@@ -74,7 +74,7 @@ abstract class SerializableObject implements \JsonSerializable
             if ($value instanceof SerializableObject) {
                 $output[$key] = $value->serializeToArray();
             } else {
-                if (is_array($output[$key])) {
+                if (is_array($value)) {
                     foreach ($output[$key] as $key2 => $value2) {
                         if ($value2 instanceof SerializableObject) {
                             $output[$key][$key2] = $value2->jsonSerialize();
