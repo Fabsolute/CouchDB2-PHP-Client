@@ -139,7 +139,7 @@ abstract class SerializableObject implements \JsonSerializable
         }
         $this->serializable_object_registered_properties[$property_name] = ['class_name' => $class_name, 'is_array' => $is_array];
 
-        $validation = $this->addObjectValidation($property_name);
+        $validation = $this->addObjectValidation($property_name)->setType($class_name);
         if ($is_array) {
             $validation->isArray();
         }
