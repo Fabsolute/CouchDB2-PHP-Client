@@ -8,15 +8,28 @@
 
 namespace Fabs\CouchDB2\Model;
 
+use Fabs\CouchDB2\Validation\BooleanValidation;
+use Fabs\CouchDB2\Validation\FloatValidation;
+use Fabs\CouchDB2\Validation\IntegerValidation;
+use Fabs\CouchDB2\Validation\ObjectValidation;
+use Fabs\CouchDB2\Validation\StringValidation;
+use Fabs\CouchDB2\Validation\ValidationBase;
+use Fabs\CouchDB2\Validation\ValidationException;
+
 abstract class SerializableObject implements \JsonSerializable
 {
-    private $registered_properties = [];
-    private $non_serializable_properties = [];
+    private $serializable_object_registered_properties = [];
+    private $serializable_object_non_serializable_properties = [];
+    /**
+     * @var ValidationBase[]
+     */
+    private $serializable_object_validations = [];
 
     public function __construct()
     {
-        $this->nonSerialize('registered_properties');
-        $this->nonSerialize('non_serializable_properties');
+        $this->nonSerialize('serializable_object_non_serializable_properties');
+        $this->nonSerialize('serializable_object_registered_properties');
+        $this->nonSerialize('serializable_object_validations');
     }
 
     public function jsonSerialize()
@@ -26,11 +39,21 @@ abstract class SerializableObject implements \JsonSerializable
 
     public function serializeToArray()
     {
+        foreach ($this as $key => $value) {
+            if (array_key_exists($key, $this->serializable_object_validations)) {
+                $validation = $this->serializable_object_validations[$key];
+
+                if (!$validation->isValid($value)) {
+                    throw new ValidationException(get_class($this), $key, $validation->getName());
+                }
+            }
+        }
+
         $output = [];
 
         foreach ($this as $key => $value) {
 
-            if (in_array($key, $this->non_serializable_properties)) {
+            if (in_array($key, $this->serializable_object_non_serializable_properties)) {
                 continue;
             }
 
@@ -47,13 +70,13 @@ abstract class SerializableObject implements \JsonSerializable
     public function deserializeFromArray($data)
     {
         foreach ($data as $key => $value) {
-            if (in_array($key, $this->non_serializable_properties)) {
+            if (in_array($key, $this->serializable_object_non_serializable_properties)) {
                 continue;
             }
 
             if (property_exists($this, $key)) {
-                if (array_key_exists($key, $this->registered_properties)) {
-                    $registered_type = $this->registered_properties[$key];
+                if (array_key_exists($key, $this->serializable_object_registered_properties)) {
+                    $registered_type = $this->serializable_object_registered_properties[$key];
                     if ($registered_type['is_array'] === false) {
                         $this->$key = self::create($value, $registered_type['class_name']);
                     } else {
@@ -67,6 +90,16 @@ abstract class SerializableObject implements \JsonSerializable
                 }
             }
         }
+
+        foreach ($this as $key => $value) {
+            if (array_key_exists($key, $this->serializable_object_validations)) {
+                $validation = $this->serializable_object_validations[$key];
+
+                if (!$validation->isValid($value)) {
+                    throw new ValidationException(get_class($this), $key, $validation->getName());
+                }
+            }
+        }
     }
 
     protected function registerProperty($property_name, $class_name, $is_array = false)
@@ -74,13 +107,19 @@ abstract class SerializableObject implements \JsonSerializable
         if (!property_exists($this, $property_name)) {
             throw  new \InvalidArgumentException("Variable {$property_name} not found in class " . __CLASS__);
         }
-        $this->registered_properties[$property_name] = ['class_name' => $class_name, 'is_array' => $is_array];
-        return $this;
+        $this->serializable_object_registered_properties[$property_name] = ['class_name' => $class_name, 'is_array' => $is_array];
+
+        $validation = $this->addObjectValidation($property_name);
+        if ($is_array) {
+            $validation->isArray();
+        }
+
+        return $validation;
     }
 
     protected function nonSerialize($property_name)
     {
-        $this->non_serializable_properties[] = $property_name;
+        $this->serializable_object_non_serializable_properties[] = $property_name;
         return $this;
     }
 
@@ -92,7 +131,6 @@ abstract class SerializableObject implements \JsonSerializable
         if (!is_array($data)) {
             throw new \InvalidArgumentException('data must be an array');
         }
-
 
         if (!class_exists($class_name)) {
             throw new \InvalidArgumentException("class_name {$class_name} cannot found on namespace");
@@ -117,5 +155,40 @@ abstract class SerializableObject implements \JsonSerializable
     {
         $class_name = static::class;
         return self::create($data, $class_name);
+    }
+
+    public function addIntegerValidation($property_name)
+    {
+        $validation = new IntegerValidation();
+        $this->serializable_object_validations[$property_name] = $validation;
+        return $validation;
+    }
+
+    public function addStringValidation($property_name)
+    {
+        $validation = new StringValidation();
+        $this->serializable_object_validations[$property_name] = $validation;
+        return $validation;
+    }
+
+    public function addFloatValidation($property_name)
+    {
+        $validation = new FloatValidation();
+        $this->serializable_object_validations[$property_name] = $validation;
+        return $validation;
+    }
+
+    public function addObjectValidation($property_name)
+    {
+        $validation = new ObjectValidation();
+        $this->serializable_object_validations[$property_name] = $validation;
+        return $validation;
+    }
+
+    public function addBooleanValidation($property_name)
+    {
+        $validation = new BooleanValidation();
+        $this->serializable_object_validations[$property_name] = $validation;
+        return $validation;
     }
 }
