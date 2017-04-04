@@ -22,7 +22,7 @@ class FloatValidation extends ValidationBase
             }
         }
 
-        return is_float($value);
+        return is_float($value) || is_int($value);
     }
 
     public function getName()
