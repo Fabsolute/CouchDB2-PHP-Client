@@ -43,7 +43,7 @@ abstract class SerializableObject implements \JsonSerializable
             if (array_key_exists($key, $this->serializable_object_validations)) {
                 $validation_failed = false;
                 $validation = $this->serializable_object_validations[$key];
-                if ($validation->isArray()) {
+                if ($validation->getIsArray()) {
                     if (!is_array($value)) {
                         $validation_failed = true;
                     } else {
@@ -111,7 +111,7 @@ abstract class SerializableObject implements \JsonSerializable
                 $validation_failed = false;
                 $validation = $this->serializable_object_validations[$key];
 
-                if ($validation->isArray()) {
+                if ($validation->getIsArray()) {
                     if (!is_array($value)) {
                         $validation_failed = true;
                     } else {

@@ -15,6 +15,10 @@ class ObjectValidation extends ValidationBase
     /** @var string */
     protected $type = null;
 
+    /**
+     * @param $type string
+     * @return ObjectValidation
+     */
     public function setType($type)
     {
         $this->type = $type;
