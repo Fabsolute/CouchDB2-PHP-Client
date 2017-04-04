@@ -157,35 +157,35 @@ abstract class SerializableObject implements \JsonSerializable
         return self::create($data, $class_name);
     }
 
-    public function addIntegerValidation($property_name)
+    protected function addIntegerValidation($property_name)
     {
         $validation = new IntegerValidation();
         $this->serializable_object_validations[$property_name] = $validation;
         return $validation;
     }
 
-    public function addStringValidation($property_name)
+    protected function addStringValidation($property_name)
     {
         $validation = new StringValidation();
         $this->serializable_object_validations[$property_name] = $validation;
         return $validation;
     }
 
-    public function addFloatValidation($property_name)
+    protected function addFloatValidation($property_name)
     {
         $validation = new FloatValidation();
         $this->serializable_object_validations[$property_name] = $validation;
         return $validation;
     }
 
-    public function addObjectValidation($property_name)
+    protected function addObjectValidation($property_name)
     {
         $validation = new ObjectValidation();
         $this->serializable_object_validations[$property_name] = $validation;
         return $validation;
     }
 
-    public function addBooleanValidation($property_name)
+    protected function addBooleanValidation($property_name)
     {
         $validation = new BooleanValidation();
         $this->serializable_object_validations[$property_name] = $validation;
