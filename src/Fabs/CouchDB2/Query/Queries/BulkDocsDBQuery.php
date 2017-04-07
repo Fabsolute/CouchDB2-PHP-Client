@@ -45,7 +45,7 @@ class BulkDocsDBQuery extends DBQuery
     {
         if ($doc instanceof CouchObject) {
             $this->doc_list[] = $doc;
-            $this->query_data['docs'][] = $doc->serializeToArray();
+            $this->query_data['docs'][] = $doc->jsonSerialize();
         } else if (!is_array($doc)) {
             $this->doc_list[] = null;
             $this->query_data['docs'][] = (array)$doc;

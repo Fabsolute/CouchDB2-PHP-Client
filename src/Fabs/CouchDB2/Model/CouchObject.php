@@ -33,7 +33,7 @@ abstract class CouchObject extends SerializableObject
         $this->nonSerialize('cached_data');
     }
 
-    public function serializeToArray()
+    public function jsonSerialize()
     {
         foreach ($this as $key => $value) {
             if (strpos($key, '_') === 0 && ($key != '_id' && $key != '_rev')) {
@@ -41,7 +41,7 @@ abstract class CouchObject extends SerializableObject
             }
         }
 
-        $output = parent::serializeToArray();
+        $output = parent::jsonSerialize();
 
         if (strlen($this->_id) > 0) {
             $output['_id'] = $this->_id;
@@ -56,12 +56,12 @@ abstract class CouchObject extends SerializableObject
     public function deserializeFromArray($data)
     {
         parent::deserializeFromArray($data);
-        $this->cached_data = $this->serializeToArray();
+        $this->cached_data = $this->jsonSerialize();
     }
 
     public function isChanged()
     {
-        $output = $this->serializeToArray();
+        $output = $this->jsonSerialize();
         if ($output != $this->cached_data) {
             return true;
         }

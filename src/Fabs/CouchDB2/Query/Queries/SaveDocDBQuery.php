@@ -27,7 +27,7 @@ class SaveDocDBQuery extends DBQuery
         $this->execution_method = 'save_doc';
         if ($doc instanceof CouchObject) {
             $this->save_object_document = $doc;
-            $doc = $doc->serializeToArray();
+            $doc = $doc->jsonSerialize();
         } elseif (!is_array($doc)) {
             $doc = (array)$doc;
         }

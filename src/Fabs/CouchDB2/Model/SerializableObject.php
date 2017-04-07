@@ -34,11 +34,6 @@ abstract class SerializableObject implements \JsonSerializable
 
     public function jsonSerialize()
     {
-        return $this->serializeToArray();
-    }
-
-    public function serializeToArray()
-    {
         foreach ($this as $key => $value) {
             if (array_key_exists($key, $this->serializable_object_validations)) {
                 $validation_failed = false;
@@ -72,7 +67,7 @@ abstract class SerializableObject implements \JsonSerializable
             }
 
             if ($value instanceof SerializableObject) {
-                $output[$key] = $value->serializeToArray();
+                $output[$key] = $value->jsonSerialize();
             } else {
                 if (is_array($value)) {
                     $output[$key] = [];
