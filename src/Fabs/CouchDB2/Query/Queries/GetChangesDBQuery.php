@@ -8,8 +8,6 @@
 
 namespace Fabs\CouchDB2\Query\Queries;
 
-use Fabs\CouchDB2\Couch;
-use Fabs\CouchDB2\Model\SerializableObject;
 use Fabs\CouchDB2\Query\DBQuery;
 use Fabs\CouchDB2\Query\QueryMethods;
 use Fabs\CouchDB2\Query\QueryStatusCodes;

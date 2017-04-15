@@ -10,11 +10,11 @@ namespace Fabs\CouchDB2\Query\Queries;
 
 
 use Fabs\CouchDB2\Model\CouchObject;
-use Fabs\CouchDB2\Model\SerializableObject;
 use Fabs\CouchDB2\Query\DBQuery;
 use Fabs\CouchDB2\Query\QueryMethods;
 use Fabs\CouchDB2\Query\QueryStatusCodes;
 use Fabs\CouchDB2\Response\DocumentResponseElement;
+use Fabs\Serialize\SerializableObject;
 
 class SaveDocDBQuery extends DBQuery
 {

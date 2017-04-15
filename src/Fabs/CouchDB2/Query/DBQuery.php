@@ -8,7 +8,6 @@
  */
 namespace Fabs\CouchDB2\Query;
 
-use Fabs\CouchDB2\Model\SerializableObject;
 use Fabs\CouchDB2\Query\Queries\BulkDocsDBQuery;
 use Fabs\CouchDB2\Query\Queries\GetAllDocsDBQuery;
 use Fabs\CouchDB2\Query\Queries\GetChangesDBQuery;

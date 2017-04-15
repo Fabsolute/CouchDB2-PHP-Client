@@ -8,7 +8,7 @@
  */
 namespace Fabs\CouchDB2\Response;
 
-use Fabs\CouchDB2\Model\SerializableObject;
+use Fabs\Serialize\SerializableObject;
 
 class BaseResponse extends SerializableObject
 {
@@ -17,7 +17,7 @@ class BaseResponse extends SerializableObject
     public function __construct()
     {
         parent::__construct();
-        $this->nonSerialize('data');
+        $this->makeTransient('data');
     }
 
     public function deserializeFromArray($data)

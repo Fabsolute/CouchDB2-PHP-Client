@@ -8,8 +8,7 @@
 
 namespace Fabs\CouchDB2\Response;
 
-
-use Fabs\CouchDB2\Model\SerializableObject;
+use Fabs\Serialize\SerializableObject;
 
 class ViewResponseElement extends SerializableObject
 {

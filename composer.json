@@ -17,6 +17,7 @@
   ],
   "require": {
     "php": "^7.0",
+    "fabs/serialize": "dev-develop",
     "guzzlehttp/guzzle": "~6.0"
   },
   "autoload": {

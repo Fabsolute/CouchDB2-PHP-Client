@@ -8,8 +8,8 @@
  */
 namespace Fabs\CouchDB2\Query;
 
-use Fabs\CouchDB2\Model\SerializableObject;
 use Fabs\CouchDB2\Response\BaseResponse;
+use Fabs\Serialize\SerializableObject;
 
 abstract class QueryBase
 {

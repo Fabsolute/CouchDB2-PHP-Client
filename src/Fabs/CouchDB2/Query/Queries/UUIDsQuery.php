@@ -9,11 +9,11 @@
 namespace Fabs\CouchDB2\Query\Queries;
 
 
-use Fabs\CouchDB2\Model\SerializableObject;
 use Fabs\CouchDB2\Query\QueryBase;
 use Fabs\CouchDB2\Query\QueryMethods;
 use Fabs\CouchDB2\Query\QueryStatusCodes;
 use Fabs\CouchDB2\Response\UUIDResponse;
+use Fabs\Serialize\SerializableObject;
 
 class UUIDsQuery extends QueryBase
 {

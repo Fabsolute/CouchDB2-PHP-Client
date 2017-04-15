@@ -8,6 +8,8 @@
 
 namespace Fabs\CouchDB2\Model;
 
+use Fabs\Serialize\SerializableObject;
+
 abstract class CouchObject extends SerializableObject
 {
     /**
@@ -28,9 +30,9 @@ abstract class CouchObject extends SerializableObject
     public function __construct()
     {
         parent::__construct();
-        $this->nonSerialize('_id');
-        $this->nonSerialize('_rev');
-        $this->nonSerialize('cached_data');
+        $this->makeTransient('_id');
+        $this->makeTransient('_rev');
+        $this->makeTransient('cached_data');
     }
 
     public function jsonSerialize()
