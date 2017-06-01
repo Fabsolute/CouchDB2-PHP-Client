@@ -9,6 +9,8 @@
 namespace Fabs\CouchDB2;
 
 
+use Fabs\CouchDB2\Model\CouchError;
+
 class CouchDBException extends \Exception
 {
     protected $url;
@@ -30,7 +32,7 @@ class CouchDBException extends \Exception
         $this->url = sprintf('%s%s?%s', $base_server_url, $request->getUri()->getPath(), $request->getUri()->getQuery());
         $status_code = $response->getStatusCode();
         $this->request_body = json_decode($request->getBody(), true);
-        $this->response_body = json_decode($response->getBody(), true);
+        $this->response_body = CouchError::deserialize(json_decode($response->getBody(), true));
 
         $message = sprintf('Status Code: %s, Couch Response: %s', $status_code, json_encode($this->response_body));
         parent::__construct($message, $status_code);
@@ -47,21 +49,24 @@ class CouchDBException extends \Exception
     /**
      * @return \GuzzleHttp\Psr7\Request
      */
-    public function getRequest(){
+    public function getRequest()
+    {
         return $this->request;
     }
 
     /**
-     * @return mixed
+     * @return CouchError
      */
-    public function getResponseBody(){
+    public function getResponseBody()
+    {
         return $this->response_body;
     }
 
     /**
      * @return mixed
      */
-    public function getRequestBody(){
+    public function getRequestBody()
+    {
         return $this->request_body;
     }
 
