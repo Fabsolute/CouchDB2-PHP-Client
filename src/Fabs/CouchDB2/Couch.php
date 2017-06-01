@@ -9,6 +9,7 @@
 namespace Fabs\CouchDB2;
 
 use Fabs\CouchDB2\Exception\CouchDBException;
+use Fabs\CouchDB2\Exception\DocumentDeletedException;
 use Fabs\CouchDB2\Exception\DocumentNotFoundException;
 use Fabs\CouchDB2\Exception\ViewNotFoundException;
 use Fabs\CouchDB2\Model\CouchError;
@@ -108,6 +109,8 @@ class Couch
                         throw  new ViewNotFoundException($this->getServerUrl(), $request, $response, $response_body);
                     } else if ($reason == 'missing') {
                         throw new DocumentNotFoundException($this->getServerUrl(), $request, $response, $response_body);
+                    } else if ($reason == 'deleted') {
+                        throw new DocumentDeletedException($this->getServerUrl(), $request, $response, $response_body);
                     }
                 }
             }
