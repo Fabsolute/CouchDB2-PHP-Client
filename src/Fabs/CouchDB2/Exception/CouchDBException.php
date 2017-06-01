@@ -6,9 +6,10 @@
  * Time: 19:42
  */
 
-namespace Fabs\CouchDB2;
+namespace Fabs\CouchDB2\Exception;
 
 
+use Fabs\CouchDB2\Couch;
 use Fabs\CouchDB2\Model\CouchError;
 
 class CouchDBException extends \Exception
@@ -24,15 +25,16 @@ class CouchDBException extends \Exception
      * @param string $base_server_url
      * @param \GuzzleHttp\Psr7\Request $request
      * @param \GuzzleHttp\Psr7\Response $response
+     * @param $response_body CouchError
      */
-    public function __construct($base_server_url, $request, $response)
+    public function __construct($base_server_url, $request, $response, $response_body)
     {
         $this->response = $response;
         $this->request = $request;
         $this->url = sprintf('%s%s?%s', $base_server_url, $request->getUri()->getPath(), $request->getUri()->getQuery());
         $status_code = $response->getStatusCode();
         $this->request_body = json_decode($request->getBody(), true);
-        $this->response_body = CouchError::deserialize(json_decode($response->getBody(), true));
+        $this->response_body = $response_body;
 
         $message = sprintf('Status Code: %s, Couch Response: %s', $status_code, json_encode($this->response_body));
         parent::__construct($message, $status_code);

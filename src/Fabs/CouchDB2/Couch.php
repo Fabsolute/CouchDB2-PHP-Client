@@ -8,6 +8,10 @@
 
 namespace Fabs\CouchDB2;
 
+use Fabs\CouchDB2\Exception\CouchDBException;
+use Fabs\CouchDB2\Exception\DocumentNotFoundException;
+use Fabs\CouchDB2\Exception\ViewNotFoundException;
+use Fabs\CouchDB2\Model\CouchError;
 use Fabs\CouchDB2\Query\DBQuery;
 use Fabs\CouchDB2\Query\Queries\AllDatabasesQuery;
 use Fabs\CouchDB2\Query\Queries\CreateDatabaseQuery;
@@ -18,6 +22,7 @@ use Fabs\CouchDB2\Query\QueryBase;
 use GuzzleHttp\Client;
 use GuzzleHttp\Psr7\Request;
 use GuzzleHttp\Psr7\Response;
+use PHPUnit\Framework\Exception;
 
 class Couch
 {
@@ -91,7 +96,23 @@ class Couch
             }
             return true;
         } else {
-            throw new CouchDBException($this->getServerUrl(),$request, $response);
+            $status_code = $response->getStatusCode();
+            /** @var CouchError $response_body */
+            $response_body = CouchError::deserialize(json_decode($response->getBody(), true));
+            $error = $response_body->getError();
+            $reason = $response_body->getReason();
+
+            if ($status_code == 404) {
+                if ($error == 'not_found') {
+                    if ($reason == 'missing_named_view') {
+                        throw  new ViewNotFoundException($this->getServerUrl(), $request, $response, $response_body);
+                    } else if ($reason == 'missing') {
+                        throw new DocumentNotFoundException($this->getServerUrl(), $request, $response, $response_body);
+                    }
+                }
+            }
+
+            throw new CouchDBException($this->getServerUrl(), $request, $response, $response_body);
         }
     }
 
