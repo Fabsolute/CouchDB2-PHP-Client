@@ -58,6 +58,15 @@ abstract class CouchObject extends SerializableObject
     public function deserializeFromArray($data)
     {
         parent::deserializeFromArray($data);
+
+        if (isset($data['_id'])) {
+            $this->_id = $data['_id'];
+        }
+
+        if (isset($data['_rev'])) {
+            $this->_rev = $data['_rev'];
+        }
+
         $this->cached_data = $this->jsonSerialize();
     }
 
