@@ -122,7 +122,7 @@ class GetViewDBQuery extends DBQuery
      */
     public function setKeys($value)
     {
-        $this->query_data['keys'] = $value;
+        $this->query_data['keys'] = array_values($value);
         return $this;
     }
 
