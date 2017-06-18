@@ -36,7 +36,7 @@ class ViewResponseElement extends SerializableObject
     }
 
     /**
-     * @return array
+     * @return mixed
      */
     public function getValue()
     {
