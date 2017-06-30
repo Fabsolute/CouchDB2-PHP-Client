@@ -9,10 +9,11 @@
 namespace Fabs\CouchDB2\Query\Queries;
 
 
+use Fabs\CouchDB2\Constant\QueryMethods;
+use Fabs\CouchDB2\Constant\QueryStatusCodes;
 use Fabs\CouchDB2\Query\DBQuery;
-use Fabs\CouchDB2\Query\QueryMethods;
-use Fabs\CouchDB2\Query\QueryStatusCodes;
 use Fabs\CouchDB2\Response\ViewResponse;
+use Fabs\Serialize\SerializableObject;
 
 class GetAllDocsDBQuery extends DBQuery
 {

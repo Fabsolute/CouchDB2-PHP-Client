@@ -8,6 +8,8 @@
  */
 namespace Fabs\CouchDB2\Query;
 
+use Fabs\CouchDB2\Constant\QueryMethods;
+use Fabs\CouchDB2\Constant\QueryStatusCodes;
 use Fabs\CouchDB2\Query\Queries\BulkDocsDBQuery;
 use Fabs\CouchDB2\Query\Queries\GetAllDocsDBQuery;
 use Fabs\CouchDB2\Query\Queries\GetChangesDBQuery;

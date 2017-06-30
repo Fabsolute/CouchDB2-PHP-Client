@@ -6,7 +6,7 @@
  * Time: 11:43
  */
 
-namespace Fabs\CouchDB2\Query;
+namespace Fabs\CouchDB2\Constant;
 
 
 class QueryMethods

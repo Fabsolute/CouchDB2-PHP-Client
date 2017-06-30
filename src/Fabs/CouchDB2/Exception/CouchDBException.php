@@ -9,7 +9,6 @@
 namespace Fabs\CouchDB2\Exception;
 
 
-use Fabs\CouchDB2\Couch;
 use Fabs\CouchDB2\Model\CouchError;
 
 class CouchDBException extends \Exception

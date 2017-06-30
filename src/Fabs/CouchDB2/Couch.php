@@ -23,7 +23,6 @@ use Fabs\CouchDB2\Query\QueryBase;
 use GuzzleHttp\Client;
 use GuzzleHttp\Psr7\Request;
 use GuzzleHttp\Psr7\Response;
-use PHPUnit\Framework\Exception;
 
 class Couch
 {
