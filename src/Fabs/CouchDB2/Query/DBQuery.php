@@ -16,6 +16,7 @@ use Fabs\CouchDB2\Query\Queries\GetChangesDBQuery;
 use Fabs\CouchDB2\Query\Queries\GetDocDBQuery;
 use Fabs\CouchDB2\Query\Queries\GetUpdateHandlerDBQuery;
 use Fabs\CouchDB2\Query\Queries\GetViewDBQuery;
+use Fabs\CouchDB2\Query\Queries\LuceneDBQuery;
 use Fabs\CouchDB2\Query\Queries\SaveDocDBQuery;
 use Fabs\CouchDB2\Response\BaseResponse;
 
@@ -172,6 +173,11 @@ class DBQuery extends QueryBase
     public function getView($design_doc_id, $view_name)
     {
         return new GetViewDBQuery($this->couch_object, $this->getDatabaseName(), $design_doc_id, $view_name);
+    }
+
+    public function getLuceneQuery($design_doc_name, $query_name)
+    {
+        return new LuceneDBQuery($this->couch_object, $this->getDatabaseName(), $design_doc_name, $query_name);
     }
 
     public function getUpdateHandler($design_doc_id, $update_handler_name)
