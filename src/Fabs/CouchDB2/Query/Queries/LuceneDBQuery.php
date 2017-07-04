@@ -35,7 +35,7 @@ class LuceneDBQuery extends DBQuery
         $this->execution_method = 'get_lucene_view';
         $this->query_method = QueryMethods::GET;
         $this->allowed_response_codes = [QueryStatusCodes::SUCCESS];
-        $this->query_url = sprintf('_fti/_design/%s/%s', $design_doc_name, $fulltext_name);
+        $this->query_url = sprintf('_design/%s/%s', $design_doc_name, $fulltext_name);
         parent::__construct($couch_object, $database_name);
     }
 
@@ -104,12 +104,17 @@ class LuceneDBQuery extends DBQuery
      */
     public function execute()
     {
-        if (count($this->and_queries) > 0)
-        {
+        if (count($this->and_queries) > 0) {
             $this->setQueryParameters('q', implode(' AND ', $this->and_queries));
         }
 
         $response = parent::execute();
         return LuceneResponse::deserialize($response->getRawData());
+    }
+
+    public function getQueryUrl()
+    {
+        $url = parent::getQueryUrl();
+        return sprintf('%s/%s', '_fti/local', $url);
     }
 }
