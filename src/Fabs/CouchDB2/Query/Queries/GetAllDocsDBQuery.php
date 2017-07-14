@@ -99,12 +99,22 @@ class GetAllDocsDBQuery extends DBQuery
     }
 
     /**
-     * @param $value
+     * @param string[] $value
      * @return GetAllDocsDBQuery
      */
     public function setKeys($value)
     {
-        $this->query_data['keys'] = array_values($value);
+        if (is_array($value) === false) {
+            throw new \InvalidArgumentException('value must be an array');
+        }
+        $keys = array_values($value);
+        foreach ($keys as $key) {
+            if ($key === null) {
+                throw new \InvalidArgumentException('value cannot contain null value');
+            }
+        }
+
+        $this->query_data['keys'] = $keys;
         return $this;
     }
 
