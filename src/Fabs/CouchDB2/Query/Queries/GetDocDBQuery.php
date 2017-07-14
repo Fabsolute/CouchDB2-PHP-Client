@@ -17,6 +17,9 @@ class GetDocDBQuery extends DBQuery
 {
     public function __construct($couch_object, $database_name, $doc_id)
     {
+        if ($doc_id === null) {
+            throw new \InvalidArgumentException('doc_id cannot be null');
+        }
         $this->reset();
         $this->execution_method = 'get_doc';
         $this->query_url = $doc_id;
