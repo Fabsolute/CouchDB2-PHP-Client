@@ -41,7 +41,7 @@ class ViewResponseElement extends SerializableObject
      */
     public function getStatsValue()
     {
-        return StatsModel::deserialize($this->getDoc());
+        return StatsModel::deserialize($this->getValue());
     }
 
     /**
