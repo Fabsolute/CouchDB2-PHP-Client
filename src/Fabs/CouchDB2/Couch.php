@@ -9,6 +9,7 @@
 namespace Fabs\CouchDB2;
 
 use Fabs\CouchDB2\Exception\CouchDBException;
+use Fabs\CouchDB2\Exception\DocumentConflictException;
 use Fabs\CouchDB2\Exception\DocumentDeletedException;
 use Fabs\CouchDB2\Exception\DocumentNotFoundException;
 use Fabs\CouchDB2\Exception\ViewNotFoundException;
@@ -102,7 +103,7 @@ class Couch
             $error = $response_body->getError();
             $reason = $response_body->getReason();
 
-            if ($status_code == 404) {
+            if ($status_code === 404) {
                 if ($error == 'not_found') {
                     if ($reason == 'missing_named_view') {
                         throw  new ViewNotFoundException($this->getServerUrl(), $request, $response, $response_body);
@@ -112,6 +113,8 @@ class Couch
                         throw new DocumentDeletedException($this->getServerUrl(), $request, $response, $response_body);
                     }
                 }
+            } else if ($status_code === 409) {
+                throw new DocumentConflictException($this->getServerUrl(), $request, $response, $response_body);
             }
 
             throw new CouchDBException($this->getServerUrl(), $request, $response, $response_body);
