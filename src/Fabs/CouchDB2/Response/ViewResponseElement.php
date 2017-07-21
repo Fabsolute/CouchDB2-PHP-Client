@@ -8,6 +8,7 @@
 
 namespace Fabs\CouchDB2\Response;
 
+use Fabs\CouchDB2\Model\StatsModel;
 use Fabs\Serialize\SerializableObject;
 
 class ViewResponseElement extends SerializableObject
@@ -33,6 +34,14 @@ class ViewResponseElement extends SerializableObject
     public function getDocWithType($type)
     {
         return SerializableObject::create($this->getDoc(), $type);
+    }
+
+    /**
+     * @return StatsModel
+     */
+    public function getStatsValue()
+    {
+        return StatsModel::deserialize($this->getDoc());
     }
 
     /**
