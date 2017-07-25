@@ -14,7 +14,7 @@ class DocumentResponseElement extends SerializableObject
 {
     protected $id = null;
     protected $rev = null;
-    protected $ok = null;
+    protected $ok = false;
 
     /**
      * @return string
