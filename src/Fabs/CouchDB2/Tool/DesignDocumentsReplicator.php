@@ -8,6 +8,7 @@ use Fabs\CouchDB2\Model\DesignDocument;
 use Fabs\CouchDB2\Model\FullText;
 use Fabs\CouchDB2\Model\ReplicatorDocument;
 use Fabs\CouchDB2\Model\View;
+use Fabs\CouchDB2\Query\DBQuery;
 
 class DesignDocumentsReplicator
 {
@@ -246,7 +247,7 @@ class DesignDocumentsReplicator
      * @return array
      * @author necipallef <necipallef@gmail.com>
      */
-    public function createReplicatorDB($source_couch_config, $target_couch_config, $is_continuous = false, $create_target = false)
+    public function createReplicatorsAll($source_couch_config, $target_couch_config, $is_continuous = false, $create_target = false)
     {
         $source_couch = new Couch($source_couch_config);
         $target_couch = new Couch($target_couch_config);
@@ -291,6 +292,54 @@ class DesignDocumentsReplicator
         $db_query->execute();
         
         return ['count' => $count];
+    }
+
+
+    /**
+     * @param string $db_name
+     * @param CouchConfig $source_couch_config
+     * @param CouchConfig $target_couch_config
+     * @param bool $is_continuous
+     * @param bool $create_target
+     * @return array
+     * @author necipallef <necipallef@gmail.com>
+     */
+    public function createReplicator($db_name, $source_couch_config, $target_couch_config, $is_continuous = false, $create_target = false)
+    {
+        if (strpos($db_name, '_') === 0){
+            return ['aborting, db_name cannot start with underscore'];
+        }
+
+        $target_couch = new Couch($target_couch_config);
+
+        $replicator_document_entity = new ReplicatorDocument();
+        $replicator_document_entity->_id = $db_name . '_replicator';
+
+        $source = sprintf('http://%s:%s@%s:%s/%s',
+            $source_couch_config->username,
+            $source_couch_config->password,
+            $source_couch_config->server,
+            $source_couch_config->port,
+            $db_name);
+        $replicator_document_entity->source = $source;
+
+        $target = sprintf('http://%s:%s@%s:%s/%s',
+            $target_couch_config->username,
+            $target_couch_config->password,
+            $target_couch_config->server,
+            $target_couch_config->port,
+            $db_name);
+        $replicator_document_entity->target = $target;
+
+        $replicator_document_entity->continuous = $is_continuous;
+        $replicator_document_entity->create_target = $create_target;
+
+        $result = $target_couch->selectDatabase('_replicator')
+                ->bulkDocs()
+                ->addDoc($replicator_document_entity)
+                ->execute() !== null;
+
+        return [$db_name . ' result' => $result];
     }
 
 
