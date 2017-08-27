@@ -3,6 +3,7 @@
 namespace Fabs\CouchDB2\Tool;
 
 use Fabs\CouchDB2\Couch;
+use Fabs\CouchDB2\CouchConfig;
 use Fabs\CouchDB2\Model\DesignDocument;
 use Fabs\CouchDB2\Model\FullText;
 use Fabs\CouchDB2\Model\ReplicatorDocument;
@@ -238,21 +239,24 @@ class DesignDocumentsReplicator
 
 
     /**
-     * @param string $source_server
-     * @param string $target_server
+     * @param CouchConfig $source_couch_config
+     * @param CouchConfig $target_couch_config
      * @param bool $is_continuous
      * @param bool $create_target
      * @return array
      * @author necipallef <necipallef@gmail.com>
      */
-    public function createReplicatorDB($source_server, $target_server, $is_continuous = false, $create_target = false)
+    public function createReplicatorDB($source_couch_config, $target_couch_config, $is_continuous = false, $create_target = false)
     {
-        $db_names = $this->couch->getAllDatabases()
+        $source_couch = new Couch($source_couch_config);
+        $target_couch = new Couch($target_couch_config);
+
+        $db_names = $source_couch->getAllDatabases()
             ->execute()
             ->getRawData();
-        
+
         $count = 0;
-        $db_query = $this->couch->selectDatabase('_replicator')->bulkDocs();
+        $db_query = $target_couch->selectDatabase('_replicator')->bulkDocs();
         foreach ($db_names as $db_name){
             if (strpos($db_name, '_') === 0){
                 continue;
@@ -260,8 +264,23 @@ class DesignDocumentsReplicator
             
             $replicator_document_entity = new ReplicatorDocument();
             $replicator_document_entity->_id = $db_name . '_replicator';
-            $replicator_document_entity->source = $source_server;
-            $replicator_document_entity->target = $target_server;
+
+            $source = sprintf('http://%s:%s@%s:%s/%s',
+                $source_couch_config->username,
+                $source_couch_config->password,
+                $source_couch_config->server,
+                $source_couch_config->port,
+                $db_name);
+            $replicator_document_entity->source = $source;
+
+            $target = sprintf('http://%s:%s@%s:%s/%s',
+                $target_couch_config->username,
+                $target_couch_config->password,
+                $target_couch_config->server,
+                $target_couch_config->port,
+                $db_name);
+            $replicator_document_entity->target = $target;
+
             $replicator_document_entity->continuous = $is_continuous;
             $replicator_document_entity->create_target = $create_target;
             
