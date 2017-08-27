@@ -164,6 +164,7 @@ class DesignDocumentsReplicator
                 ->execute()
                 ->getRows();
 
+            /** @var DesignDocument[] $design_document_list */
             $design_document_list = [];
             foreach ($rows as $row) {
                 $design_document_list[] = $row->getDocWithType(DesignDocument::class);
@@ -211,11 +212,24 @@ class DesignDocumentsReplicator
                 }
 
 
+                // Updates
+                if (count($design_document->updates) > 0) {
+                    $updates_path = $design_document_path . '/updates';
+                    $this->createDir($updates_path);
+
+                    foreach ($design_document->updates as $update_name => $update) {
+                        $update_file_name = $update_name . '.js';
+                        $update_file_path = $updates_path . '/' . $update_file_name;
+                        file_put_contents($update_file_path, $update);
+                        $count++;
+                    }
+                }
+
                 // todo Filters
 
-                // todo Updates
-
                 // todo Validations
+
+                // todo Lists
             }
         }
 
