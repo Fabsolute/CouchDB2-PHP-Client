@@ -40,7 +40,7 @@ class DesignDocumentsReplicator
 
         $count = 0;
         foreach (self::folderList($design_documents_path) as $db_path) {
-            $db_name = str_replace($design_documents_path . '/', '', $design_documents_path);
+            $db_name = str_replace($design_documents_path . '/', '', $db_path);
             if (!in_array($db_name, $db_names)) {
                 $this->couch->createDatabase($db_name)
                     ->execute();
