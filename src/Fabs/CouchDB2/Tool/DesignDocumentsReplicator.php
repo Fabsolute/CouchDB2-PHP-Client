@@ -294,7 +294,6 @@ class DesignDocumentsReplicator
         return ['count' => $count];
     }
 
-
     /**
      * @param string $db_name
      * @param CouchConfig $source_couch_config
@@ -342,7 +341,67 @@ class DesignDocumentsReplicator
         return [$db_name . ' result' => $result];
     }
 
+    /**
+     * @return array
+     * @author ahmetturk <ahmetturk93@gmail.com>
+     */
+    public function executeAllDesignDocuments()
+    {
+        $db_names = $this->couch->getAllDatabases()
+            ->execute()
+            ->getRawData();
 
+        $count = 0;
+        foreach ($db_names as $db_name) {
+
+            $rows = $this->couch->selectDatabase($db_name)
+                ->getAllDocs()
+                ->setIncludeDocs(true)
+                ->setStartKey('_design')
+                ->setEndKey('_design{')
+                ->execute()
+                ->getRows();
+
+            /** @var DesignDocument[] $design_document_list */
+            $design_document_list = [];
+            foreach ($rows as $row) {
+                $design_document_list[] = $row->getDocWithType(DesignDocument::class);
+            }
+
+            foreach ($design_document_list as $design_document) {
+                $design_document_name = str_replace('_design/', '', $design_document->_id);
+
+                if (count($design_document->views) > 0) {
+                    foreach ($design_document->views as $view_name => $view) {
+                        $this->executeView($db_name, $design_document_name, $view_name);
+                        $count++;
+                        break;
+                    }
+                }
+            }
+        }
+
+        return ['count' => $count];
+    }
+
+    /**
+     * @param string $database_name
+     * @param string $design_document_name
+     * @param string $view_name
+     * @return array
+     * @author ahmetturk <ahmetturk93@gmail.com>
+     */
+    public function executeView($database_name, $design_document_name, $view_name)
+    {
+        $this->couch->selectDatabase($database_name)
+            ->getView($design_document_name, $view_name)
+            ->setStale('update_after')
+            ->setLimit(1)
+            ->execute();
+
+        return ['result' => 'success'];
+    }
+    
     /**
      * @param string $file
      * @return string
