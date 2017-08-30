@@ -239,6 +239,7 @@ class DesignDocumentsReplicator
     }
 
 
+    // todo allow replicating db without replicating views
     /**
      * @param CouchConfig $source_couch_config
      * @param CouchConfig $target_couch_config
@@ -281,10 +282,7 @@ class DesignDocumentsReplicator
             $replicator_document_entity->source = $source;
 
             if ($include_views === false) {
-                $target = sprintf('http://%s:%s/%s',
-                    $target_couch_config->server,
-                    $target_couch_config->port,
-                    $db_name);
+                $target = $db_name;
             } else {
                 $target = sprintf('http://%s:%s@%s:%s/%s',
                     $target_couch_config->username,
@@ -343,10 +341,7 @@ class DesignDocumentsReplicator
         $replicator_document_entity->source = $source;
 
         if ($include_views === false) {
-            $target = sprintf('http://%s:%s/%s',
-                $target_couch_config->server,
-                $target_couch_config->port,
-                $db_name);
+            $target = $db_name;
         } else {
             $target = sprintf('http://%s:%s@%s:%s/%s',
                 $target_couch_config->username,
