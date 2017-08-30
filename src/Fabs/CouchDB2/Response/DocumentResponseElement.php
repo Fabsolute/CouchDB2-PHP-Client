@@ -31,4 +31,13 @@ class DocumentResponseElement extends SerializableObject
     {
         return $this->rev;
     }
+
+    /**
+     * @return bool
+     * @author necipallef <necipallef@gmail.com>
+     */
+    public function getOK()
+    {
+        return $this->ok;
+    }
 }

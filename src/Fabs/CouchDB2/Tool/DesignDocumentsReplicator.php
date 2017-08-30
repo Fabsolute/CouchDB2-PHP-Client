@@ -152,7 +152,7 @@ class DesignDocumentsReplicator
         $db_names = $this->couch->getAllDatabases()
             ->execute()
             ->getRawData();
-        
+
         $count = 0;
         foreach ($db_names as $db_name) {
             $db_path = $design_documents_path . '/' . $db_name;
@@ -239,15 +239,22 @@ class DesignDocumentsReplicator
     }
 
 
+    // todo allow replicating db without replicating views
     /**
      * @param CouchConfig $source_couch_config
      * @param CouchConfig $target_couch_config
      * @param bool $is_continuous
      * @param bool $create_target
+     * @param bool $include_views
      * @return array
      * @author necipallef <necipallef@gmail.com>
      */
-    public function createReplicatorsAll($source_couch_config, $target_couch_config, $is_continuous = false, $create_target = false)
+    public function createReplicatorsAll(
+        $source_couch_config,
+        $target_couch_config,
+        $is_continuous = false,
+        $create_target = false,
+        $include_views = true)
     {
         $source_couch = new Couch($source_couch_config);
         $target_couch = new Couch($target_couch_config);
@@ -258,11 +265,11 @@ class DesignDocumentsReplicator
 
         $count = 0;
         $db_query = $target_couch->selectDatabase('_replicator')->bulkDocs();
-        foreach ($db_names as $db_name){
-            if (strpos($db_name, '_') === 0){
+        foreach ($db_names as $db_name) {
+            if (strpos($db_name, '_') === 0) {
                 continue;
             }
-            
+
             $replicator_document_entity = new ReplicatorDocument();
             $replicator_document_entity->_id = $db_name . '_replicator';
 
@@ -274,23 +281,27 @@ class DesignDocumentsReplicator
                 $db_name);
             $replicator_document_entity->source = $source;
 
-            $target = sprintf('http://%s:%s@%s:%s/%s',
-                $target_couch_config->username,
-                $target_couch_config->password,
-                $target_couch_config->server,
-                $target_couch_config->port,
-                $db_name);
+            if ($include_views === false) {
+                $target = $db_name;
+            } else {
+                $target = sprintf('http://%s:%s@%s:%s/%s',
+                    $target_couch_config->username,
+                    $target_couch_config->password,
+                    $target_couch_config->server,
+                    $target_couch_config->port,
+                    $db_name);
+            }
             $replicator_document_entity->target = $target;
 
             $replicator_document_entity->continuous = $is_continuous;
             $replicator_document_entity->create_target = $create_target;
-            
+
             $db_query->addDoc($replicator_document_entity);
             $count++;
         }
-        
+
         $db_query->execute();
-        
+
         return ['count' => $count];
     }
 
@@ -300,12 +311,19 @@ class DesignDocumentsReplicator
      * @param CouchConfig $target_couch_config
      * @param bool $is_continuous
      * @param bool $create_target
+     * @param bool $include_views
      * @return array
      * @author necipallef <necipallef@gmail.com>
      */
-    public function createReplicator($db_name, $source_couch_config, $target_couch_config, $is_continuous = false, $create_target = false)
+    public function createReplicator(
+        $db_name,
+        $source_couch_config,
+        $target_couch_config,
+        $is_continuous = false,
+        $create_target = false,
+        $include_views = true)
     {
-        if (strpos($db_name, '_') === 0){
+        if (strpos($db_name, '_') === 0) {
             return ['aborting, db_name cannot start with underscore'];
         }
 
@@ -322,12 +340,16 @@ class DesignDocumentsReplicator
             $db_name);
         $replicator_document_entity->source = $source;
 
-        $target = sprintf('http://%s:%s@%s:%s/%s',
-            $target_couch_config->username,
-            $target_couch_config->password,
-            $target_couch_config->server,
-            $target_couch_config->port,
-            $db_name);
+        if ($include_views === false) {
+            $target = $db_name;
+        } else {
+            $target = sprintf('http://%s:%s@%s:%s/%s',
+                $target_couch_config->username,
+                $target_couch_config->password,
+                $target_couch_config->server,
+                $target_couch_config->port,
+                $db_name);
+        }
         $replicator_document_entity->target = $target;
 
         $replicator_document_entity->continuous = $is_continuous;
@@ -401,7 +423,7 @@ class DesignDocumentsReplicator
 
         return ['result' => 'success'];
     }
-    
+
     /**
      * @param string $file
      * @return string
