@@ -27,6 +27,10 @@ class GetUpdateHandlerDBQuery extends DBQuery
         parent::__construct($couch_object, $database_name);
     }
 
+    /**
+     * @param string $document_id
+     * @return GetUpdateHandlerDBQuery
+     */
     public function selectDocument($document_id)
     {
         $this->query_method = QueryMethods::PUT;
