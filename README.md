@@ -7,7 +7,7 @@ Install the library like this `composer require fabs/couchdb2`
 ## Quick Start
 ```
 // Create an instance
-$config = new Config('http://my.couch.server.com', 5984, 'username', 'password');
+$config = new Config('127.0.0.1', 5984, 'username', 'password');
 $client = new Couch($config);
 
 // Get document by ID
@@ -15,8 +15,6 @@ $doc = $client
        ->selectDatabase('test_database')
        ->getDoc('some_doc_id')
        ->execute();
-
-TODO
 
 ## More...
 
