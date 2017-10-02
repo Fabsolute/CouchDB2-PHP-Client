@@ -36,6 +36,10 @@ class DesignDocumentsReplicator
      */
     public function createFromDirectory($design_documents_path)
     {
+        if ($this->couch === null){
+            return ['aborting, no Couch instance found. Please provide a Couch instance by using setCouch() method'];
+        }
+
         $db_names = $this->couch->getAllDatabases()
             ->execute()
             ->getRawData();
@@ -149,6 +153,10 @@ class DesignDocumentsReplicator
      */
     public function createDirectoriesFromDB($design_documents_path)
     {
+        if ($this->couch === null){
+            return ['aborting, no Couch instance found. Please provide a Couch instance by using setCouch() method'];
+        }
+
         $db_names = $this->couch->getAllDatabases()
             ->execute()
             ->getRawData();
@@ -369,6 +377,10 @@ class DesignDocumentsReplicator
      */
     public function executeAllDesignDocuments()
     {
+        if ($this->couch === null){
+            return ['aborting, no Couch instance found. Please provide a Couch instance by using setCouch() method'];
+        }
+
         $db_names = $this->couch->getAllDatabases()
             ->execute()
             ->getRawData();
@@ -415,6 +427,10 @@ class DesignDocumentsReplicator
      */
     public function executeView($database_name, $design_document_name, $view_name)
     {
+        if ($this->couch === null){
+            return ['aborting, no Couch instance found. Please provide a Couch instance by using setCouch() method'];
+        }
+        
         $this->couch->selectDatabase($database_name)
             ->getView($design_document_name, $view_name)
             ->setStale('update_after')
