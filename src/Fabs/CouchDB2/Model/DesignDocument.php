@@ -18,6 +18,8 @@ class DesignDocument extends CouchObject
     public $filters = [];
     /** @var FullText[] */
     public $fulltext = [];
+    /** @var string */
+    public $db_name = null;
 
     public function __construct()
     {
@@ -29,5 +31,6 @@ class DesignDocument extends CouchObject
         $this->addCondition('updates', new RenderIfNotEmptyArrayCondition());
         $this->addCondition('filters', new RenderIfNotEmptyArrayCondition());
         $this->addCondition('fulltext', new RenderIfNotEmptyArrayCondition());
+        $this->makeTransient('db_name');
     }
 }
