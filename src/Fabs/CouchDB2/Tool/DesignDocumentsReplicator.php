@@ -36,7 +36,7 @@ class DesignDocumentsReplicator
      */
     public function createFromDirectory($design_documents_path)
     {
-        if ($this->couch === null){
+        if ($this->couch === null) {
             return ['aborting, no Couch instance found. Please provide a Couch instance by using setCouch() method'];
         }
 
@@ -44,7 +44,8 @@ class DesignDocumentsReplicator
             ->execute()
             ->getRawData();
 
-        $count = 0;
+        /** @var DesignDocument[] $total_design_document_updated_list */
+        $total_design_document_updated_list = [];
         foreach (self::folderList($design_documents_path) as $db_path) {
             $db_name = str_replace($design_documents_path . '/', '', $db_path);
             if (!in_array($db_name, $db_names)) {
@@ -76,6 +77,7 @@ class DesignDocumentsReplicator
                     $design_document->_id = $design_document_id;
                 }
 
+                $design_document->db_name = $db_name;
                 foreach (self::folderList($design_document_path) as $design_document_element_path) {
                     $design_document_element_name = str_replace($design_document_path . '/', '', $design_document_element_path);
                     $design_document_element_files = glob($design_document_element_path . '/*.js');
@@ -139,10 +141,21 @@ class DesignDocumentsReplicator
                     ->execute();
             }
 
-            $count += count($design_document_updated_list);
+            $total_design_document_updated_list[] = $design_document_updated_list;
         }
 
-        return ['count' => $count];
+        $design_document_name_list = [];
+        foreach ($total_design_document_updated_list as $design_document){
+            $design_document_name_list[] = sprintf('%s/%s', $design_document->db_name, $design_document->_id);
+        }
+        $design_document_name_list = array_unique($design_document_name_list);
+
+        return
+            [
+                'details' => $total_design_document_updated_list,
+                'count' => count($total_design_document_updated_list),
+                'design_docs' => $design_document_name_list
+            ];
     }
 
 
@@ -153,7 +166,7 @@ class DesignDocumentsReplicator
      */
     public function createDirectoriesFromDB($design_documents_path)
     {
-        if ($this->couch === null){
+        if ($this->couch === null) {
             return ['aborting, no Couch instance found. Please provide a Couch instance by using setCouch() method'];
         }
 
@@ -161,7 +174,8 @@ class DesignDocumentsReplicator
             ->execute()
             ->getRawData();
 
-        $count = 0;
+        /** @var DesignDocument[] $total_design_document_updated_list */
+        $total_design_document_updated_list = [];
         foreach ($db_names as $db_name) {
             $db_path = $design_documents_path . '/' . $db_name;
             $this->createDir($db_path);
@@ -193,7 +207,6 @@ class DesignDocumentsReplicator
                         $view_file_name = $view_name . '.js';
                         $view_file_path = $views_path . '/' . $view_file_name;
                         file_put_contents($view_file_path, $view->map);
-                        $count++;
 
                         // Reduce
                         if ($view->reduce !== null) {
@@ -203,7 +216,6 @@ class DesignDocumentsReplicator
                             $reduce_file_name = $view_name . '.js';
                             $reduce_file_path = $reduce_path . '/' . $reduce_file_name;
                             file_put_contents($reduce_file_path, $view->reduce);
-                            $count++;
                         }
                     }
                 }
@@ -217,7 +229,6 @@ class DesignDocumentsReplicator
                         $fulltext_file_name = $fulltext_name . '.js';
                         $fulltext_file_path = $fulltexts_path . '/' . $fulltext_file_name;
                         file_put_contents($fulltext_file_path, $fulltext_entity->index);
-                        $count++;
                     }
                 }
 
@@ -231,7 +242,6 @@ class DesignDocumentsReplicator
                         $update_file_name = $update_name . '.js';
                         $update_file_path = $updates_path . '/' . $update_file_name;
                         file_put_contents($update_file_path, $update);
-                        $count++;
                     }
                 }
 
@@ -240,10 +250,25 @@ class DesignDocumentsReplicator
                 // todo Validations
 
                 // todo Lists
+
+                if ($design_document->isChanged()) {
+                    $total_design_document_updated_list[] = $design_document;
+                }
             }
         }
 
-        return ['count' => $count];
+        $design_document_name_list = [];
+        foreach ($total_design_document_updated_list as $design_document){
+            $design_document_name_list[] = sprintf('%s/%s', $design_document->db_name, $design_document->_id);
+        }
+        $design_document_name_list = array_unique($design_document_name_list);
+
+        return
+            [
+                'details' => $total_design_document_updated_list,
+                'count' => count($total_design_document_updated_list),
+                'design_docs' => $design_document_name_list
+            ];
     }
 
 
@@ -377,7 +402,7 @@ class DesignDocumentsReplicator
      */
     public function executeAllDesignDocuments()
     {
-        if ($this->couch === null){
+        if ($this->couch === null) {
             return ['aborting, no Couch instance found. Please provide a Couch instance by using setCouch() method'];
         }
 
@@ -427,10 +452,10 @@ class DesignDocumentsReplicator
      */
     public function executeView($database_name, $design_document_name, $view_name)
     {
-        if ($this->couch === null){
+        if ($this->couch === null) {
             return ['aborting, no Couch instance found. Please provide a Couch instance by using setCouch() method'];
         }
-        
+
         $this->couch->selectDatabase($database_name)
             ->getView($design_document_name, $view_name)
             ->setStale('update_after')
