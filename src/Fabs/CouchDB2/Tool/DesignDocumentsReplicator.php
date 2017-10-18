@@ -141,7 +141,7 @@ class DesignDocumentsReplicator
                     ->execute();
             }
 
-            $total_design_document_updated_list[] = $design_document_updated_list;
+            $total_design_document_updated_list = array_merge($total_design_document_updated_list, $design_document_updated_list);
         }
 
         $design_document_name_list = [];
@@ -258,7 +258,7 @@ class DesignDocumentsReplicator
         }
 
         $design_document_name_list = [];
-        foreach ($total_design_document_updated_list as $design_document){
+        foreach ($total_design_document_updated_list as $design_document) {
             $design_document_name_list[] = sprintf('%s/%s', $design_document->db_name, $design_document->_id);
         }
         $design_document_name_list = array_unique($design_document_name_list);
