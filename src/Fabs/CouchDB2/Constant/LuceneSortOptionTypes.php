@@ -8,4 +8,5 @@ class LuceneSortOptionTypes
     const DOUBLE = 'double';
     const LONG   = 'long';
     const DATE   = 'date';
+    const STRING   = 'string';
 }
