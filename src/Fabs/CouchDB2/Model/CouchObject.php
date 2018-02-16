@@ -24,7 +24,7 @@ abstract class CouchObject extends SerializableObject
      * @var array
      */
     private $cached_data = null;
-
+    
     public function __construct()
     {
         parent::__construct();
@@ -36,7 +36,7 @@ abstract class CouchObject extends SerializableObject
     public function serializeToArray()
     {
         foreach ($this as $key => $value) {
-            if (strpos($key, '_') === 0 && ($key != '_id' && $key != '_rev')) {
+            if (strpos($key, '_') === 0 && in_array($key, $this->getAllowedPropertiesStartWithUnderscore) === false) {
                 throw new \Exception('Variables cannot start with underscore');
             }
         }
@@ -66,5 +66,17 @@ abstract class CouchObject extends SerializableObject
             return true;
         }
         return false;
+    }
+    
+    protected final function getAllowedPropertiesStartWithUnderscore()
+    {
+        return[
+                '_id',
+                '_rev',
+                '_replication_state',
+                '_replication_state_time',
+                '_replication_id',
+                '_replication_state_reason'
+            ];
     }
 }
