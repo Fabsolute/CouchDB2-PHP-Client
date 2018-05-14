@@ -145,7 +145,7 @@ class DesignDocumentsReplicator
         }
 
         $design_document_name_list = [];
-        foreach ($total_design_document_updated_list as $design_document){
+        foreach ($total_design_document_updated_list as $design_document) {
             $design_document_name_list[] = sprintf('%s/%s', $design_document->db_name, $design_document->_id);
         }
         $design_document_name_list = array_unique($design_document_name_list);
@@ -273,6 +273,7 @@ class DesignDocumentsReplicator
 
 
     // todo allow replicating db without replicating views
+
     /**
      * @param CouchConfig $source_couch_config
      * @param CouchConfig $target_couch_config
@@ -411,6 +412,7 @@ class DesignDocumentsReplicator
             ->getRawData();
 
         $count = 0;
+        $fail_count = 0;
         foreach ($db_names as $db_name) {
 
             $rows = $this->couch->selectDatabase($db_name)
@@ -432,15 +434,19 @@ class DesignDocumentsReplicator
 
                 if (count($design_document->views) > 0) {
                     foreach ($design_document->views as $view_name => $view) {
-                        $this->executeView($db_name, $design_document_name, $view_name);
-                        $count++;
+                        $result = $this->executeView($db_name, $design_document_name, $view_name);
+                        if ($result === true) {
+                            $count++;
+                        } else {
+                            $fail_count++;
+                        }
                         break;
                     }
                 }
             }
         }
 
-        return ['count' => $count];
+        return ['count' => $count, 'fail_count' => $fail_count];
     }
 
     /**
@@ -453,16 +459,16 @@ class DesignDocumentsReplicator
     public function executeView($database_name, $design_document_name, $view_name)
     {
         if ($this->couch === null) {
-            return ['aborting, no Couch instance found. Please provide a Couch instance by using setCouch() method'];
+            throw new \Exception('no Couch instance found. Please provide a Couch instance by using setCouch() method');
         }
 
-        $this->couch->selectDatabase($database_name)
+        $response = $this->couch->selectDatabase($database_name)
             ->getView($design_document_name, $view_name)
             ->setStale('update_after')
             ->setLimit(1)
             ->execute();
 
-        return ['result' => 'success'];
+        return $response !== null;
     }
 
     /**
