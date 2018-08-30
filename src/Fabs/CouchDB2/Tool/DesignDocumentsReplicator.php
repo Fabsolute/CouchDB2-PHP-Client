@@ -31,11 +31,16 @@ class DesignDocumentsReplicator
 
     /**
      * @param string $design_documents_path
+     * @param null|string $db_name_prefix
      * @return array
      * @author necipallef <necipallef@gmail.com>
      */
-    public function createFromDirectory($design_documents_path)
+    public function createFromDirectory($design_documents_path, $db_name_prefix = null)
     {
+        if ($db_name_prefix !== null && !is_string($db_name_prefix)) {
+            return ['db_name_prefix is expected to be string'];
+        }
+
         if ($this->couch === null) {
             return ['aborting, no Couch instance found. Please provide a Couch instance by using setCouch() method'];
         }
@@ -48,6 +53,9 @@ class DesignDocumentsReplicator
         $total_design_document_updated_list = [];
         foreach (self::folderList($design_documents_path) as $db_path) {
             $db_name = str_replace($design_documents_path . '/', '', $db_path);
+            if ($db_name_prefix !== null) {
+                $db_name = $db_name_prefix . $db_name;
+            }
             if (!in_array($db_name, $db_names)) {
                 $this->couch->createDatabase($db_name)
                     ->execute();
