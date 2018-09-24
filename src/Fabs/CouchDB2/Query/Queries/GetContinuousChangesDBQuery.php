@@ -9,7 +9,6 @@
 namespace Fabs\CouchDB2\Query\Queries;
 
 
-use Fabs\CouchDB2\Query\DBQuery;
 
 class GetContinuousChangesDBQuery extends GetChangesDBQuery
 {

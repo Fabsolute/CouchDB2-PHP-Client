@@ -8,8 +8,8 @@
 
 namespace Fabs\CouchDB2\Response;
 
-
-use Fabs\CouchDB2\Model\SerializableObject;
+use Fabs\CouchDB2\Model\StatsModel;
+use Fabs\Serialize\SerializableObject;
 
 class ViewResponseElement extends SerializableObject
 {
@@ -37,7 +37,15 @@ class ViewResponseElement extends SerializableObject
     }
 
     /**
-     * @return array
+     * @return StatsModel
+     */
+    public function getStatsValue()
+    {
+        return StatsModel::deserialize($this->getValue());
+    }
+
+    /**
+     * @return mixed
      */
     public function getValue()
     {

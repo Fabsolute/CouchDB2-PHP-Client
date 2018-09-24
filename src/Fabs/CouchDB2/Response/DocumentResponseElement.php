@@ -8,14 +8,13 @@
 
 namespace Fabs\CouchDB2\Response;
 
-
-use Fabs\CouchDB2\Model\SerializableObject;
+use Fabs\Serialize\SerializableObject;
 
 class DocumentResponseElement extends SerializableObject
 {
     protected $id = null;
     protected $rev = null;
-    protected $ok = null;
+    protected $ok = false;
 
     /**
      * @return string
@@ -31,5 +30,14 @@ class DocumentResponseElement extends SerializableObject
     public function getRev()
     {
         return $this->rev;
+    }
+
+    /**
+     * @return bool
+     * @author necipallef <necipallef@gmail.com>
+     */
+    public function getOK()
+    {
+        return $this->ok;
     }
 }

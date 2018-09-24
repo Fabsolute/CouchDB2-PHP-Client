@@ -9,10 +9,11 @@
 namespace Fabs\CouchDB2\Query\Queries;
 
 
+use Fabs\CouchDB2\Constant\QueryMethods;
+use Fabs\CouchDB2\Constant\QueryStatusCodes;
 use Fabs\CouchDB2\Query\DBQuery;
-use Fabs\CouchDB2\Query\QueryMethods;
-use Fabs\CouchDB2\Query\QueryStatusCodes;
 use Fabs\CouchDB2\Response\ViewResponse;
+use Fabs\Serialize\SerializableObject;
 
 class GetAllDocsDBQuery extends DBQuery
 {
@@ -98,12 +99,22 @@ class GetAllDocsDBQuery extends DBQuery
     }
 
     /**
-     * @param $value
+     * @param string[] $value
      * @return GetAllDocsDBQuery
      */
     public function setKeys($value)
     {
-        $this->query_data['keys'] = $value;
+        if (is_array($value) === false) {
+            throw new \InvalidArgumentException('value must be an array');
+        }
+        $keys = array_values($value);
+        foreach ($keys as $key) {
+            if ($key === null) {
+                throw new \InvalidArgumentException('value cannot contain null value');
+            }
+        }
+
+        $this->query_data['keys'] = $keys;
         return $this;
     }
 
@@ -158,7 +169,7 @@ class GetAllDocsDBQuery extends DBQuery
     }
 
     /**
-     * @return ViewResponse
+     * @return SerializableObject|ViewResponse
      */
     public function execute()
     {
@@ -173,7 +184,7 @@ class GetAllDocsDBQuery extends DBQuery
             }
         }
         $response = parent::execute();
-        return new ViewResponse($response->getRawData());
+        return ViewResponse::deserialize($response->getRawData());
     }
 
 }

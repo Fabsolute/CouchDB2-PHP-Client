@@ -9,12 +9,12 @@
 namespace Fabs\CouchDB2\Query\Queries;
 
 
+use Fabs\CouchDB2\Constant\QueryMethods;
+use Fabs\CouchDB2\Constant\QueryStatusCodes;
 use Fabs\CouchDB2\Model\CouchObject;
-use Fabs\CouchDB2\Model\SerializableObject;
 use Fabs\CouchDB2\Query\DBQuery;
-use Fabs\CouchDB2\Query\QueryMethods;
-use Fabs\CouchDB2\Query\QueryStatusCodes;
 use Fabs\CouchDB2\Response\BulkDocsResponse;
+use Fabs\Serialize\SerializableObject;
 
 class BulkDocsDBQuery extends DBQuery
 {
@@ -45,7 +45,7 @@ class BulkDocsDBQuery extends DBQuery
     {
         if ($doc instanceof CouchObject) {
             $this->doc_list[] = $doc;
-            $this->query_data['docs'][] = $doc->serializeToArray();
+            $this->query_data['docs'][] = $doc->jsonSerialize();
         } else if (!is_array($doc)) {
             $this->doc_list[] = null;
             $this->query_data['docs'][] = (array)$doc;

@@ -9,9 +9,9 @@
 namespace Fabs\CouchDB2\Query\Queries;
 
 
+use Fabs\CouchDB2\Constant\QueryMethods;
+use Fabs\CouchDB2\Constant\QueryStatusCodes;
 use Fabs\CouchDB2\Query\DBQuery;
-use Fabs\CouchDB2\Query\QueryMethods;
-use Fabs\CouchDB2\Query\QueryStatusCodes;
 
 class GetUpdateHandlerDBQuery extends DBQuery
 {
@@ -27,6 +27,10 @@ class GetUpdateHandlerDBQuery extends DBQuery
         parent::__construct($couch_object, $database_name);
     }
 
+    /**
+     * @param string $document_id
+     * @return GetUpdateHandlerDBQuery
+     */
     public function selectDocument($document_id)
     {
         $this->query_method = QueryMethods::PUT;

@@ -6,7 +6,7 @@
  * Time: 11:46
  */
 
-namespace Fabs\CouchDB2\Query;
+namespace Fabs\CouchDB2\Constant;
 
 
 class QueryStatusCodes

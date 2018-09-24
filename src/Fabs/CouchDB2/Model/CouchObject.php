@@ -8,6 +8,8 @@
 
 namespace Fabs\CouchDB2\Model;
 
+use Fabs\Serialize\SerializableObject;
+
 abstract class CouchObject extends SerializableObject
 {
     /**
@@ -28,20 +30,20 @@ abstract class CouchObject extends SerializableObject
     public function __construct()
     {
         parent::__construct();
-        $this->nonSerialize('_id');
-        $this->nonSerialize('_rev');
-        $this->nonSerialize('cached_data');
+        $this->makeTransient('_id');
+        $this->makeTransient('_rev');
+        $this->makeTransient('cached_data');
     }
 
-    public function serializeToArray()
+    public function jsonSerialize()
     {
         foreach ($this as $key => $value) {
-            if (strpos($key, '_') === 0 && ($key != '_id' && $key != '_rev')) {
+            if (strpos($key, '_') === 0 && in_array($key, $this->getAllowedPropertiesStatWithUnderscore(), true) === false) {
                 throw new \Exception('Variables cannot start with underscore');
             }
         }
 
-        $output = parent::serializeToArray();
+        $output = parent::jsonSerialize();
 
         if (strlen($this->_id) > 0) {
             $output['_id'] = $this->_id;
@@ -56,15 +58,36 @@ abstract class CouchObject extends SerializableObject
     public function deserializeFromArray($data)
     {
         parent::deserializeFromArray($data);
-        $this->cached_data = $this->serializeToArray();
+
+        if (isset($data['_id'])) {
+            $this->_id = $data['_id'];
+        }
+
+        if (isset($data['_rev'])) {
+            $this->_rev = $data['_rev'];
+        }
+
+        $this->cached_data = $this->jsonSerialize();
     }
 
     public function isChanged()
     {
-        $output = $this->serializeToArray();
+        $output = $this->jsonSerialize();
         if ($output != $this->cached_data) {
             return true;
         }
         return false;
+    }
+
+    protected final function getAllowedPropertiesStatWithUnderscore()
+    {
+        return [
+            '_id',
+            '_rev',
+            '_replication_state',
+            '_replication_state_time',
+            '_replication_id',
+            '_replication_state_reason'
+        ];
     }
 }

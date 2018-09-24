@@ -9,14 +9,17 @@
 namespace Fabs\CouchDB2\Query\Queries;
 
 
+use Fabs\CouchDB2\Constant\QueryMethods;
+use Fabs\CouchDB2\Constant\QueryStatusCodes;
 use Fabs\CouchDB2\Query\DBQuery;
-use Fabs\CouchDB2\Query\QueryMethods;
-use Fabs\CouchDB2\Query\QueryStatusCodes;
 
 class GetDocDBQuery extends DBQuery
 {
     public function __construct($couch_object, $database_name, $doc_id)
     {
+        if ($doc_id === null) {
+            throw new \InvalidArgumentException('doc_id cannot be null');
+        }
         $this->reset();
         $this->execution_method = 'get_doc';
         $this->query_url = $doc_id;

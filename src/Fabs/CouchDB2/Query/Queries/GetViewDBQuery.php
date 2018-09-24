@@ -8,11 +8,11 @@
 
 namespace Fabs\CouchDB2\Query\Queries;
 
-use Fabs\CouchDB2\Model\SerializableObject;
+use Fabs\CouchDB2\Constant\QueryMethods;
+use Fabs\CouchDB2\Constant\QueryStatusCodes;
 use Fabs\CouchDB2\Query\DBQuery;
-use Fabs\CouchDB2\Query\QueryMethods;
-use Fabs\CouchDB2\Query\QueryStatusCodes;
 use Fabs\CouchDB2\Response\ViewResponse;
+use Fabs\Serialize\SerializableObject;
 
 class GetViewDBQuery extends DBQuery
 {
@@ -122,7 +122,7 @@ class GetViewDBQuery extends DBQuery
      */
     public function setKeys($value)
     {
-        $this->query_data['keys'] = $value;
+        $this->query_data['keys'] = array_values($value);
         return $this;
     }
 
