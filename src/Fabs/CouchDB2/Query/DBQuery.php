@@ -6,6 +6,7 @@
  * Date: 03/02/2017
  * Time: 07:06
  */
+
 namespace Fabs\CouchDB2\Query;
 
 use Fabs\CouchDB2\Constant\QueryMethods;
@@ -45,6 +46,9 @@ class DBQuery extends QueryBase
     public function getQueryUrl()
     {
         $url = parent::getQueryUrl();
+        if ($this->couch_object->config->db_name_prefix != null) {
+            return sprintf('%s%s/%s', $this->couch_object->config->db_name_prefix, $this->getDatabaseName(), $url);
+        }
         return sprintf('%s/%s', $this->getDatabaseName(), $url);
     }
 

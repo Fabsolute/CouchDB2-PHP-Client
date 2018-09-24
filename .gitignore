@@ -2,7 +2,6 @@
 vendor/
 autoloader.php
 index.php
-composer.lock
 
 *.DS_Store
 .AppleDouble
