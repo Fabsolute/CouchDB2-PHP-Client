@@ -35,4 +35,13 @@ class CreateDatabaseQuery extends QueryBase
         }
         return parent::execute();
     }
+
+    public function getQueryUrl()
+    {
+        $url = parent::getQueryUrl();
+        if ($this->couch_object->config->db_name_prefix != null) {
+            $url = $this->couch_object->config->db_name_prefix . $url;
+        }
+        return $url;
+    }
 }
