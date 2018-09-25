@@ -8,7 +8,6 @@ use Fabs\CouchDB2\Model\DesignDocument;
 use Fabs\CouchDB2\Model\FullText;
 use Fabs\CouchDB2\Model\ReplicatorDocument;
 use Fabs\CouchDB2\Model\View;
-use Fabs\CouchDB2\Query\DBQuery;
 
 class DesignDocumentsReplicator
 {
@@ -31,16 +30,11 @@ class DesignDocumentsReplicator
 
     /**
      * @param string $design_documents_path
-     * @param null|string $db_name_prefix
      * @return array
      * @author necipallef <necipallef@gmail.com>
      */
-    public function createFromDirectory($design_documents_path, $db_name_prefix = null)
+    public function createFromDirectory($design_documents_path)
     {
-        if ($db_name_prefix !== null && !is_string($db_name_prefix)) {
-            return ['db_name_prefix is expected to be string'];
-        }
-
         if ($this->couch === null) {
             return ['aborting, no Couch instance found. Please provide a Couch instance by using setCouch() method'];
         }
@@ -53,10 +47,13 @@ class DesignDocumentsReplicator
         $total_design_document_updated_list = [];
         foreach (self::folderList($design_documents_path) as $db_path) {
             $db_name = str_replace($design_documents_path . '/', '', $db_path);
-            if ($db_name_prefix !== null) {
-                $db_name = $db_name_prefix . $db_name;
+            $relative_db_name = $db_name;
+
+            if ($this->couch->config->db_name_prefix != null) {
+                $relative_db_name = $this->couch->config->db_name_prefix . $relative_db_name;
             }
-            if (!in_array($db_name, $db_names)) {
+
+            if (!in_array($relative_db_name, $db_names)) {
                 $this->couch->createDatabase($db_name)
                     ->execute();
             }
