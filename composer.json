@@ -20,8 +20,8 @@
     "fabs/serialize": "^1.0",
     "guzzlehttp/guzzle": "~6.0",
     "fabstract/datetime-handler": "^0.1.2",
-    "fabstract/assert": "^1.0",
-    "fabstract/linq": "^0.1.0"
+    "fabstract/linq": "^0.1.0",
+    "fabstract/assert": "^0.1.4"
   },
   "autoload": {
     "psr-0": {

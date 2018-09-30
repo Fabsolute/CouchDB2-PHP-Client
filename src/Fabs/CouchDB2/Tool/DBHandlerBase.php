@@ -20,6 +20,7 @@ use Fabs\CouchDB2\Tool\Constant\DesignDocuments;
 use Fabs\CouchDB2\Tool\Constant\Views;
 use Fabs\CouchDB2\Tool\Model\SearchResponseModel;
 use Fabstract\Component\Assert\Assert;
+use Fabstract\Component\LINQ\LINQ;
 
 abstract class DBHandlerBase
 {

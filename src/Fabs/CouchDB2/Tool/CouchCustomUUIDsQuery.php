@@ -7,6 +7,7 @@ use Fabs\CouchDB2\Constant\QueryMethods;
 use Fabs\CouchDB2\Constant\QueryStatusCodes;
 use Fabs\CouchDB2\Query\QueryBase;
 use Fabs\CouchDB2\Response\UUIDResponse;
+use Fabstract\Component\Assert\Assert;
 
 class CouchCustomUUIDsQuery extends QueryBase
 {
@@ -18,7 +19,7 @@ class CouchCustomUUIDsQuery extends QueryBase
         $this->query_url = '_custom_uuids';
         parent::__construct($couch_object);
 
-        Assert::isPositive($count, 'count');
+        Assert::isPositiveInt($count, 'count');
 
         $this->setQueryParameters('count', $count, 'int');
     }

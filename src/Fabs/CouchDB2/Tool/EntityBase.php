@@ -3,6 +3,7 @@
 namespace Fabs\CouchDB2\Tool;
 
 use Fabs\CouchDB2\Model\CouchObject;
+use Fabstract\Component\DateTimeHandler\DateTimeHandler;
 
 abstract class EntityBase extends CouchObject
 {

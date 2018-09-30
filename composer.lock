@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#composer-lock-the-lock-file",
         "This file is @generated automatically"
     ],
-    "content-hash": "a0435e1cc07144fb865f0d43437b20a9",
+    "content-hash": "dc135edbfc5d18bd2c0adda88c531274",
     "packages": [
         {
             "name": "fabs/serialize",
@@ -50,16 +50,16 @@
         },
         {
             "name": "fabstract/assert",
-            "version": "v1.0.0",
+            "version": "v0.1.4",
             "source": {
                 "type": "git",
                 "url": "https://github.com/Fabstract/Assert.git",
-                "reference": "373227053f34a1af79f8c0b4e6d07d0408e7d90f"
+                "reference": "948ccfdd2509b30f355b034135ecd524e0fbb466"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/Fabstract/Assert/zipball/373227053f34a1af79f8c0b4e6d07d0408e7d90f",
-                "reference": "373227053f34a1af79f8c0b4e6d07d0408e7d90f",
+                "url": "https://api.github.com/repos/Fabstract/Assert/zipball/948ccfdd2509b30f355b034135ecd524e0fbb466",
+                "reference": "948ccfdd2509b30f355b034135ecd524e0fbb466",
                 "shasum": ""
             },
             "require": {
@@ -91,7 +91,7 @@
                 "assert",
                 "php"
             ],
-            "time": "2018-09-12T13:05:33+00:00"
+            "time": "2018-09-10T07:59:00+00:00"
         },
         {
             "name": "fabstract/datetime-handler",
