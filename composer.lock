@@ -4,20 +4,20 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#composer-lock-the-lock-file",
         "This file is @generated automatically"
     ],
-    "content-hash": "527d0c792bf444b70eb5c7c6230df3be",
+    "content-hash": "decbd4695e90daf20d0dd350185e9107",
     "packages": [
         {
             "name": "fabs/serialize",
-            "version": "dev-develop",
+            "version": "v1.0",
             "source": {
                 "type": "git",
                 "url": "https://github.com/Fabsolute/PHP-Serialize.git",
-                "reference": "5fcb4bc87216902276cc3661d7d588358324dc05"
+                "reference": "7219824d577346b9061f0dcb7def3d5c08cb42d5"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/Fabsolute/PHP-Serialize/zipball/5fcb4bc87216902276cc3661d7d588358324dc05",
-                "reference": "5fcb4bc87216902276cc3661d7d588358324dc05",
+                "url": "https://api.github.com/repos/Fabsolute/PHP-Serialize/zipball/7219824d577346b9061f0dcb7def3d5c08cb42d5",
+                "reference": "7219824d577346b9061f0dcb7def3d5c08cb42d5",
                 "shasum": ""
             },
             "require": {
@@ -46,7 +46,7 @@
                 "serialization",
                 "serialize"
             ],
-            "time": "2017-12-28 14:12:50"
+            "time": "2018-09-30T09:56:06+00:00"
         },
         {
             "name": "guzzlehttp/guzzle",
@@ -1744,9 +1744,7 @@
     ],
     "aliases": [],
     "minimum-stability": "stable",
-    "stability-flags": {
-        "fabs/serialize": 20
-    },
+    "stability-flags": [],
     "prefer-stable": false,
     "prefer-lowest": false,
     "platform": {
