@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#composer-lock-the-lock-file",
         "This file is @generated automatically"
     ],
-    "content-hash": "decbd4695e90daf20d0dd350185e9107",
+    "content-hash": "a0435e1cc07144fb865f0d43437b20a9",
     "packages": [
         {
             "name": "fabs/serialize",
@@ -47,6 +47,132 @@
                 "serialize"
             ],
             "time": "2018-09-30T09:56:06+00:00"
+        },
+        {
+            "name": "fabstract/assert",
+            "version": "v1.0.0",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/Fabstract/Assert.git",
+                "reference": "373227053f34a1af79f8c0b4e6d07d0408e7d90f"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/Fabstract/Assert/zipball/373227053f34a1af79f8c0b4e6d07d0408e7d90f",
+                "reference": "373227053f34a1af79f8c0b4e6d07d0408e7d90f",
+                "shasum": ""
+            },
+            "require": {
+                "php": "^7.1"
+            },
+            "require-dev": {
+                "phpunit/phpunit": "^7.0"
+            },
+            "type": "library",
+            "autoload": {
+                "psr-4": {
+                    "Fabstract\\Component\\Assert\\": "src",
+                    "Fabstract\\Component\\Assert\\Test\\": "test"
+                }
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "MIT"
+            ],
+            "authors": [
+                {
+                    "name": "Ahmet Turk",
+                    "email": "ahmetturk93@gmail.com",
+                    "homepage": "https://github.com/fabstract"
+                }
+            ],
+            "description": "Assertion for PHP",
+            "keywords": [
+                "assert",
+                "php"
+            ],
+            "time": "2018-09-12T13:05:33+00:00"
+        },
+        {
+            "name": "fabstract/datetime-handler",
+            "version": "v0.1.2",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/Fabstract/DateTimeHandler.git",
+                "reference": "18564bae28c78dbf7edf4765e6a07ab8e4ab63e9"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/Fabstract/DateTimeHandler/zipball/18564bae28c78dbf7edf4765e6a07ab8e4ab63e9",
+                "reference": "18564bae28c78dbf7edf4765e6a07ab8e4ab63e9",
+                "shasum": ""
+            },
+            "require": {
+                "php": "^7.0"
+            },
+            "type": "library",
+            "autoload": {
+                "psr-4": {
+                    "Fabstract\\Component\\DateTimeHandler\\": "src"
+                }
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "MIT"
+            ],
+            "authors": [
+                {
+                    "name": "Ahmet Turk",
+                    "email": "ahmetturk93@gmail.com",
+                    "homepage": "https://github.com/fabstract"
+                }
+            ],
+            "description": "DateTimeHandler library for PHP",
+            "keywords": [
+                "date",
+                "datetime",
+                "php",
+                "time"
+            ],
+            "time": "2018-08-08T13:22:33+00:00"
+        },
+        {
+            "name": "fabstract/linq",
+            "version": "v0.1.0",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/Fabstract/LINQ.git",
+                "reference": "cb574e35bb88b74196c5f059281a2830126cd926"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/Fabstract/LINQ/zipball/cb574e35bb88b74196c5f059281a2830126cd926",
+                "reference": "cb574e35bb88b74196c5f059281a2830126cd926",
+                "shasum": ""
+            },
+            "type": "library",
+            "autoload": {
+                "psr-4": {
+                    "Fabstract\\Component\\LINQ\\": "src"
+                }
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "MIT"
+            ],
+            "authors": [
+                {
+                    "name": "Ahmet Turk",
+                    "email": "ahmetturk93@gmail.com",
+                    "homepage": "https://github.com/fabstract"
+                }
+            ],
+            "description": "LINQ library for PHP",
+            "keywords": [
+                "linq",
+                "php"
+            ],
+            "time": "2018-03-19T12:14:04+00:00"
         },
         {
             "name": "guzzlehttp/guzzle",
